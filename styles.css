@@ -1,75 +1,27 @@
-body {
-  font-family: Arial;
-  margin: 0;
-  background: #fff;
-}
 
-.header {
-  display:flex;
-  justify-content:space-between;
-  padding:15px 20px;
-  border-bottom:1px solid #eee;
-}
+body { font-family: Arial; margin:0; background:#fff; color:#111; }
 
-.hero {
-  text-align:center;
-  padding:40px;
-}
+.header { display:flex; justify-content:space-between; padding:15px 20px; border-bottom:1px solid #eee; }
 
-.primary {
-  background:#007bff;
-  color:white;
-  border:none;
-  padding:12px 20px;
-  border-radius:8px;
-}
+.nav a { margin:0 10px; text-decoration:none; color:#111; }
 
-.categories {
-  display:flex;
-  overflow-x:auto;
-  padding:10px;
-}
+.hero { text-align:center; padding:50px; }
 
-.cat {
-  border:1px solid #ccc;
-  padding:8px 12px;
-  border-radius:20px;
-  margin-right:10px;
-}
+.primary { background:#007bff; color:#fff; padding:12px 20px; border:none; border-radius:8px; }
 
-.feed {
-  max-width:600px;
-  margin:auto;
-  padding:20px;
-}
+.banner { height:200px; background:#f2f2f2; display:flex; align-items:center; justify-content:center; margin:20px; }
 
-.card {
-  border:1px solid #eee;
-  border-radius:12px;
-  padding:15px;
-  margin-bottom:20px;
-}
+.categories { display:flex; overflow-x:auto; padding:10px; }
 
-.vote {
-  display:flex;
-  justify-content:space-between;
-  margin-top:10px;
-}
+.cat { border:1px solid #ccc; padding:8px 12px; border-radius:20px; margin-right:10px; }
 
-.btnA {
-  background:#007bff;
-  color:#fff;
-  border:none;
-  padding:10px;
-  border-radius:8px;
-  width:48%;
-}
+.feed { max-width:600px; margin:auto; padding:20px; }
 
-.btnB {
-  background:#ff4d4d;
-  color:#fff;
-  border:none;
-  padding:10px;
-  border-radius:8px;
-  width:48%;
-}
+.card { border:1px solid #eee; border-radius:12px; padding:15px; margin-bottom:20px; }
+
+.vote { display:flex; justify-content:space-between; }
+
+.btnA { background:#007bff; color:#fff; width:48%; padding:10px; border:none; border-radius:8px; }
+.btnB { background:#ff4d4d; color:#fff; width:48%; padding:10px; border:none; border-radius:8px; }
+
+.page { padding:40px; }
