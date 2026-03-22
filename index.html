@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Votage — Arena of Opinion</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="topbar-left">
+        <a class="brand" href="#">
+          <img src="assets/icons/logo-mark.svg" alt="Votage logo" class="brand-mark" />
+          <span class="brand-word">VOTAGE</span>
+        </a>
+
+        <button class="primary-action">
+          <img src="assets/icons/icon-create.svg" alt="" />
+          <span>Start Battle</span>
+        </button>
+
+        <nav class="main-nav">
+          <a href="#" class="nav-link active"><img src="assets/icons/icon-results.svg" alt="" /> Results</a>
+          <a href="#" class="nav-link"><img src="assets/icons/icon-swap.svg" alt="" /> Swap</a>
+          <a href="#" class="nav-link"><img src="assets/icons/icon-market.svg" alt="" /> Market</a>
+          <a href="#" class="nav-link"><img src="assets/icons/icon-profile.svg" alt="" /> Profile</a>
+          <a href="lp.html" class="nav-link"><img src="assets/icons/icon-help.svg" alt="" /> How it works</a>
+        </nav>
+      </div>
+
+      <div class="topbar-right">
+        <button class="wallet-btn">Connect Wallet</button>
+      </div>
+    </header>
+
+    <main class="page-grid">
+      <aside class="left-rail">
+        <section class="user-card card">
+          <div class="user-row">
+            <img src="assets/images/avatar-default.jpg" class="avatar" alt="User avatar placeholder" />
+            <div>
+              <div class="eyebrow">Hello, username</div>
+              <div class="subtle">0x1ad3...9c72</div>
+            </div>
+          </div>
+
+          <div class="user-meta-grid">
+            <div><span>Score</span><strong>12,480</strong></div>
+            <div><span>Win Rate</span><strong>68%</strong></div>
+            <div><span>Referrals</span><strong>19</strong></div>
+            <div><span>Rewards</span><strong>480 VTG</strong></div>
+          </div>
+
+          <div class="social-stack">
+            <button class="soft-btn"><img src="assets/icons/icon-x.svg" alt="" /> Connect X</button>
+            <button class="soft-btn">Edit profile</button>
+            <button class="soft-btn">Claim rewards</button>
+          </div>
+        </section>
+
+        <section class="card categories-card">
+          <div class="section-head">
+            <h3>Categories</h3>
+          </div>
+
+          <div class="chip-grid">
+            <button class="chip active"><img src="assets/icons/icon-all.svg" alt="" /> All</button>
+            <button class="chip"><img src="assets/icons/icon-crypto.svg" alt="" /> Crypto</button>
+            <button class="chip"><img src="assets/icons/icon-tech.svg" alt="" /> Tech</button>
+            <button class="chip"><img src="assets/icons/icon-games.svg" alt="" /> Games</button>
+            <button class="chip"><img src="assets/icons/icon-music.svg" alt="" /> Music</button>
+            <button class="chip"><img src="assets/icons/icon-sports.svg" alt="" /> Sports</button>
+            <button class="chip"><img src="assets/icons/icon-movies.svg" alt="" /> Movies</button>
+            <button class="chip"><img src="assets/icons/icon-food.svg" alt="" /> Food</button>
+            <button class="chip"><img src="assets/icons/icon-design.svg" alt="" /> Design</button>
+            <button class="chip"><img src="assets/icons/icon-trends.svg" alt="" /> Trends</button>
+            <button class="chip"><img src="assets/icons/icon-brands.svg" alt="" /> Brands</button>
+          </div>
+        </section>
+      </aside>
+
+      <section class="feed-area">
+        <div class="hot-strip card">
+          <div class="section-head">
+            <h3>Hot Battles</h3>
+            <span class="subtle">Ranked by money + engagement</span>
+          </div>
+
+          <div class="hot-list">
+            <a href="#" class="hot-item">
+              <span class="hot-title">BTC vs ETH</span>
+              <span class="hot-sub">$12,430 at stake</span>
+            </a>
+            <a href="#" class="hot-item">
+              <span class="hot-title">Sonic vs Mario</span>
+              <span class="hot-sub">$9,210 at stake</span>
+            </a>
+            <a href="#" class="hot-item">
+              <span class="hot-title">iPhone vs Android</span>
+              <span class="hot-sub">$7,820 at stake</span>
+            </a>
+          </div>
+        </div>
+
+        <article class="battle-card card">
+          <div class="post-head">
+            <div class="user-row">
+              <img src="assets/images/avatar-default.jpg" class="avatar avatar-sm" alt="Creator avatar placeholder" />
+              <div>
+                <div class="creator-name">@arenaalpha</div>
+                <div class="subtle">0x7ae1...c441 • Design</div>
+              </div>
+            </div>
+
+            <span class="status-badge live">Live</span>
+          </div>
+
+          <div class="battle-copy">
+            <h2>Who defined platform gaming better?</h2>
+            <p>
+              Sonic and Mario are still two of the biggest icons in gaming culture. This description
+              is intentionally longer so you can see the collapsed behavior later when you wire the
+              real “see more” action into the HTML structure.
+              <button class="text-link">See more</button>
+            </p>
+          </div>
+
+          <div class="battle-images">
+            <figure class="battle-option battle-option-a">
+              <img src="assets/images/poll-1-a.jpg" alt="Reference image placeholder for option A" />
+              <figcaption>
+                <span class="option-name">Sonic</span>
+                <span class="option-stat">61%</span>
+              </figcaption>
+            </figure>
+
+            <figure class="battle-option battle-option-b">
+              <img src="assets/images/poll-1-b.jpg" alt="Reference image placeholder for option B" />
+              <figcaption>
+                <span class="option-name">Mario</span>
+                <span class="option-stat">39%</span>
+              </figcaption>
+            </figure>
+          </div>
+
+          <div class="vote-actions">
+            <button class="vote-btn vote-btn-a">Vote Sonic</button>
+            <button class="vote-btn vote-btn-b">Vote Mario</button>
+          </div>
+
+          <div class="battle-meta">
+            <div class="meta-left">
+              <span class="countdown">Ends in 02h 14m</span>
+              <span class="added-money">+ $320 added in last hour</span>
+            </div>
+            <div class="meta-right">
+              <span><strong>$9,210</strong> at stake</span>
+              <span><strong>842</strong> voters</span>
+            </div>
+          </div>
+
+          <div class="meter-wrap" aria-label="Battle meter">
+            <div class="meter-track">
+              <div class="meter-gradient"></div>
+              <div class="meter-pointer" style="left:61%;"></div>
+            </div>
+            <div class="meter-labels">
+              <span>Sonic 61%</span>
+              <span>Mario 39%</span>
+            </div>
+          </div>
+
+          <div class="post-actions">
+            <div class="actions-left">
+              <button class="icon-pill">
+                <img src="assets/icons/icon-like.svg" alt="" />
+                <span>120</span>
+              </button>
+              <button class="icon-pill">
+                <img src="assets/icons/icon-comment.svg" alt="" />
+                <span>24</span>
+              </button>
+            </div>
+
+            <div class="actions-right">
+              <button class="icon-pill">
+                <img src="assets/icons/icon-share.svg" alt="" />
+                <span>Copy link</span>
+              </button>
+              <button class="icon-pill x-pill">
+                <img src="assets/icons/icon-x.svg" alt="" />
+                <span>Share to X</span>
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <article class="battle-card card">
+          <div class="post-head">
+            <div class="user-row">
+              <img src="assets/images/avatar-default.jpg" class="avatar avatar-sm" alt="Creator avatar placeholder" />
+              <div>
+                <div class="creator-name">@cryptovision</div>
+                <div class="subtle">0x8fd0...ef12 • Crypto</div>
+              </div>
+            </div>
+
+            <span class="status-badge ended">Ended</span>
+          </div>
+
+          <div class="battle-copy">
+            <h2>What’s the stronger long-term asset?</h2>
+            <p>
+              BTC vs ETH closed an hour ago. Ended battles still stay in the main feed and also show
+              up under Results so the user can compare live and finished action without losing context.
+            </p>
+          </div>
+
+          <div class="battle-images">
+            <figure class="battle-option battle-option-a">
+              <img src="assets/images/poll-2-a.jpg" alt="Reference image placeholder for option A" />
+              <figcaption>
+                <span class="option-name">BTC</span>
+                <span class="option-stat">54%</span>
+              </figcaption>
+            </figure>
+
+            <figure class="battle-option battle-option-b">
+              <img src="assets/images/poll-2-b.jpg" alt="Reference image placeholder for option B" />
+              <figcaption>
+                <span class="option-name">ETH</span>
+                <span class="option-stat">46%</span>
+              </figcaption>
+            </figure>
+          </div>
+
+          <div class="vote-actions">
+            <button class="vote-btn vote-btn-a muted">View result</button>
+            <button class="vote-btn vote-btn-b muted">Share battle</button>
+          </div>
+
+          <div class="battle-meta">
+            <div class="meta-left">
+              <span class="countdown ended-text">Ended 01h ago</span>
+              <span class="added-money">Final snapshot recorded</span>
+            </div>
+            <div class="meta-right">
+              <span><strong>$12,430</strong> at stake</span>
+              <span><strong>1,248</strong> voters</span>
+            </div>
+          </div>
+
+          <div class="meter-wrap" aria-label="Battle meter">
+            <div class="meter-track">
+              <div class="meter-gradient alt"></div>
+              <div class="meter-pointer" style="left:54%;"></div>
+            </div>
+            <div class="meter-labels">
+              <span>BTC 54%</span>
+              <span>ETH 46%</span>
+            </div>
+          </div>
+
+          <div class="post-actions">
+            <div class="actions-left">
+              <button class="icon-pill">
+                <img src="assets/icons/icon-like.svg" alt="" />
+                <span>340</span>
+              </button>
+              <button class="icon-pill">
+                <img src="assets/icons/icon-comment.svg" alt="" />
+                <span>81</span>
+              </button>
+            </div>
+
+            <div class="actions-right">
+              <button class="icon-pill">
+                <img src="assets/icons/icon-share.svg" alt="" />
+                <span>Copy link</span>
+              </button>
+              <button class="icon-pill x-pill">
+                <img src="assets/icons/icon-x.svg" alt="" />
+                <span>Share to X</span>
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <article class="battle-card card">
+          <div class="post-head">
+            <div class="user-row">
+              <img src="assets/images/avatar-default.jpg" class="avatar avatar-sm" alt="Creator avatar placeholder" />
+              <div>
+                <div class="creator-name">@techpulse</div>
+                <div class="subtle">0x42b1...9aa1 • Tech</div>
+              </div>
+            </div>
+
+            <span class="status-badge live">Live</span>
+          </div>
+
+          <div class="battle-copy">
+            <h2>Which ecosystem wins on daily experience?</h2>
+            <p>
+              A clean visual reference with placeholder photos. Replace the JPGs in the assets folder later
+              and keep the exact same aspect ratio if you want the layout to hold with minimal adjustments.
+            </p>
+          </div>
+
+          <div class="battle-images">
+            <figure class="battle-option battle-option-a">
+              <img src="assets/images/poll-3-a.jpg" alt="Reference image placeholder for option A" />
+              <figcaption>
+                <span class="option-name">iPhone</span>
+                <span class="option-stat">48%</span>
+              </figcaption>
+            </figure>
+
+            <figure class="battle-option battle-option-b">
+              <img src="assets/images/poll-3-b.jpg" alt="Reference image placeholder for option B" />
+              <figcaption>
+                <span class="option-name">Android</span>
+                <span class="option-stat">52%</span>
+              </figcaption>
+            </figure>
+          </div>
+
+          <div class="vote-actions">
+            <button class="vote-btn vote-btn-a">Vote iPhone</button>
+            <button class="vote-btn vote-btn-b">Vote Android</button>
+          </div>
+
+          <div class="battle-meta">
+            <div class="meta-left">
+              <span class="countdown">Ends in 18h 42m</span>
+              <span class="added-money">+ $210 added in last hour</span>
+            </div>
+            <div class="meta-right">
+              <span><strong>$7,820</strong> at stake</span>
+              <span><strong>490</strong> voters</span>
+            </div>
+          </div>
+
+          <div class="meter-wrap" aria-label="Battle meter">
+            <div class="meter-track">
+              <div class="meter-gradient"></div>
+              <div class="meter-pointer" style="left:48%;"></div>
+            </div>
+            <div class="meter-labels">
+              <span>iPhone 48%</span>
+              <span>Android 52%</span>
+            </div>
+          </div>
+
+          <div class="post-actions">
+            <div class="actions-left">
+              <button class="icon-pill">
+                <img src="assets/icons/icon-like.svg" alt="" />
+                <span>88</span>
+              </button>
+              <button class="icon-pill">
+                <img src="assets/icons/icon-comment.svg" alt="" />
+                <span>14</span>
+              </button>
+            </div>
+
+            <div class="actions-right">
+              <button class="icon-pill">
+                <img src="assets/icons/icon-share.svg" alt="" />
+                <span>Copy link</span>
+              </button>
+              <button class="icon-pill x-pill">
+                <img src="assets/icons/icon-x.svg" alt="" />
+                <span>Share to X</span>
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <div class="load-more subtle center-note">Infinite feed placeholder • more battles load as you scroll</div>
+      </section>
+
+      <aside class="right-rail">
+        <section class="card leaderboard-card">
+          <div class="section-head">
+            <h3>Leaderboard</h3>
+            <img src="assets/icons/icon-trophy.svg" alt="" class="section-icon" />
+          </div>
+
+          <ol class="leader-list">
+            <li><span>@arenaalpha</span><strong>18,420</strong></li>
+            <li><span>@cryptovision</span><strong>15,900</strong></li>
+            <li><span>@techpulse</span><strong>12,480</strong></li>
+            <li><span>@soundclash</span><strong>11,260</strong></li>
+            <li><span>@pixelparty</span><strong>9,880</strong></li>
+          </ol>
+        </section>
+
+        <section class="card quick-panel">
+          <div class="section-head">
+            <h3>Season 1</h3>
+            <span class="subtle">Genesis</span>
+          </div>
+
+          <div class="season-box">
+            <div class="season-line"><span>Ends in</span><strong>47 days</strong></div>
+            <div class="season-line"><span>Airdrop pool</span><strong>2,400,000 VTG</strong></div>
+            <div class="season-line"><span>Your rank</span><strong>#148</strong></div>
+          </div>
+
+          <button class="soft-btn full-width">View rewards</button>
+        </section>
+      </aside>
+    </main>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
