@@ -54,9 +54,10 @@ img{display:block;max-width:100%}
   align-items:center;
   gap:14px;
 }
-.brand-mark{
-  height:42px;
-  width:auto;
+.brand-mark {
+  height: 42px;
+  width: auto;
+  filter: contrast(1.05);
 }
 .primary-action{
   height:46px;
