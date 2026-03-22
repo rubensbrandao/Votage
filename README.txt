@@ -1,49 +1,34 @@
-# Votage starter package
 
-This package is organized so you can swap images and icons without hunting through the source.
+Votage revised package
 
-## Structure
-- `index.html` → main desktop-first app view
-- `lp.html` → landing page / FAQ placeholder
-- `css/style.css` → all styles in one file
-- `js/app.js` → placeholder interactions
-- `assets/images/` → JPG placeholders
-- `assets/icons/` → SVG placeholders
+Updates included:
+- Uses uploaded logo-mark.svg and preserves its native proportion
+- Favicon wired as assets/icons/Favicon-VTA.svg using the logo as fallback
+- Text next to logo removed
+- Profile renamed to Points
+- One desktop side rail only
+- Categories moved above feed
+- Search added above categories
+- Ended cards turn gray except winner color
+- Live/Ended badges use outline only
+- Shadows removed from boxes
+- Vote buttons and image panels aligned to the same width
+- Title/description outside the image blocks
+- Countdown moved near status area
+- Added amount moved to top-right
+- Bottom action row cleaned
+- Right-side values now at stake + voters
+- Swap opens as modal overlay from the same page
+- Added Results, Market, Points and How it works pages
+- Mobile bottom nav included as a starting pattern
 
-## Replace later
-- JPGs inside `assets/images/`
-- SVGs inside `assets/icons/`
-
-## Main placeholder images used in the feed
-- `poll-1-a.jpg`
-- `poll-1-b.jpg`
-- `poll-2-a.jpg`
-- `poll-2-b.jpg`
-- `poll-3-a.jpg`
-- `poll-3-b.jpg`
-- `hero-lp.jpg`
-- `avatar-default.jpg`
-
-## Main placeholder icons
-- `logo-mark.svg`
-- `icon-like.svg`
-- `icon-comment.svg`
-- `icon-share.svg`
-- `icon-x.svg`
-- `icon-create.svg`
-- `icon-results.svg`
-- `icon-swap.svg`
-- `icon-market.svg`
-- `icon-profile.svg`
-- category icons...
-
-## Product copy direction used
-- Start Battle
-- Results
-- Swap
-- Market
-- Profile
-- How it works
-- $ at stake
-- Share to X
-
+Files:
+- index.html
+- results.html
+- market.html
+- points.html
+- how-it-works.html
+- css/style.css
+- js/app.js
+- assets/images/*
+- assets/icons/*
