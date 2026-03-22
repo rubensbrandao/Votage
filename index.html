@@ -1,228 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Votage</title>
-  <link rel="icon" type="image/svg+xml" href="assets/icons/Favicon-VTA.svg" />
-  <link rel="stylesheet" href="css/style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Votage</title>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="app-shell">
-    
-  <header class="topbar">
-    <div class="topbar-left">
-      <a class="brand" href="index.html">
-        <img src="assets/images/logo.webp" class="brand-mark">
-      </a>
-      <button class="primary-action">
-        <img src="assets/icons/icon-create.svg" alt="" />
-        <span>Start Battle</span>
-      </button>
-      <nav class="main-nav">
-        <a href="results.html" class="nav-link"><img src="assets/icons/icon-results.svg" alt="" /> Results</a>
-        <a href="#" class="nav-link js-open-swap"><img src="assets/icons/icon-swap.svg" alt="" /> Swap</a>
-        <a href="market.html" class="nav-link"><img src="assets/icons/icon-market.svg" alt="" /> Market</a>
-        <a href="points.html" class="nav-link"><img src="assets/icons/icon-points.svg" alt="" /> Points</a>
-        <a href="how-it-works.html" class="nav-link"><img src="assets/icons/icon-help.svg" alt="" /> How it works</a>
-      </nav>
-    </div>
-    <div class="topbar-right">
-      <button class="wallet-btn js-wallet">Connect Wallet</button>
-    </div>
-  </header>
 
-    <main class="page-grid single-rail">
-      <aside class="side-rail card">
-        <div class="rail-user">
-          <div class="user-row">
-            <img src="assets/images/avatar-default.jpg" class="avatar" alt="Avatar" />
-            <div>
-              <div class="eyebrow">Hello, username</div>
-              <div class="subtle">0x1ad3...9c72</div>
-            </div>
-          </div>
-        </div>
-      </aside>
-
-      <section class="feed-area">
-        
-    <section class="stack-section">
-      <div class="search-row card flat-card">
-        <div class="search-box">
-          <img src="assets/icons/icon-search.svg" alt="" />
-          <input type="text" placeholder="Search battles, users..." />
-        </div>
-      </div>
-
-      <div class="category-strip">
-        <button class="chip active"><img src="assets/icons/icon-all.svg" alt="" /> All</button>
-        <button class="chip"><img src="assets/icons/icon-crypto.svg" alt="" /> Crypto</button>
-        <button class="chip"><img src="assets/icons/icon-tech.svg" alt="" /> Tech</button>
-        <button class="chip"><img src="assets/icons/icon-games.svg" alt="" /> Games</button>
-        <button class="chip"><img src="assets/icons/icon-music.svg" alt="" /> Music</button>
-        <button class="chip"><img src="assets/icons/icon-sports.svg" alt="" /> Sports</button>
-        <button class="chip"><img src="assets/icons/icon-movies.svg" alt="" /> Movies</button>
-        <button class="chip"><img src="assets/icons/icon-food.svg" alt="" /> Food</button>
-        <button class="chip"><img src="assets/icons/icon-design.svg" alt="" /> Design</button>
-        <button class="chip"><img src="assets/icons/icon-trends.svg" alt="" /> Trends</button>
-        <button class="chip"><img src="assets/icons/icon-brands.svg" alt="" /> Brands</button>
-      </div>
-    </section>
-
-        
-        <article class="battle-card card">
-          <div class="post-head">
-            <div class="user-row">
-              <img src="assets/images/avatar-default.jpg" class="avatar avatar-sm" alt="Creator avatar placeholder" />
-              <div>
-                <div class="eyebrow">Hello, username</div>
-                <div class="subtle">0x7ae1...c441</div>
-              </div>
-            </div>
-            <div class="head-right">
-              <span class="status-badge live">Live</span>
-              <span class="added-money">$320 added in last hour</span>
-            </div>
-          </div>
-
-          <div class="battle-copy">
-            <h2>Who defined platform gaming better?</h2>
-            <p>Sonic and Mario are still two of the biggest icons in gaming culture. This text is outside the image so white artwork will never kill readability. <button class="text-link">See more</button></p>
-          </div>
-
-          <div class="battle-grid">
-            <div class="battle-panel battle-panel-a">
-              <div class="panel-name">Sonic</div>
-              <img src="assets/images/poll-sonic.jpg" alt="Option A placeholder" />
-              <div class="panel-percent">61%</div>
-              <button class="vote-btn vote-btn-a">Vote Sonic</button>
-            </div>
-
-            <div class="battle-panel battle-panel-b">
-              <div class="panel-name">Mario</div>
-              <img src="assets/images/poll-mario.jpg" alt="Option B placeholder" />
-              <div class="panel-percent">39%</div>
-              <button class="vote-btn vote-btn-b">Vote Mario</button>
-            </div>
-          </div>
-
-          <div class="meta-top">
-            <span class="countdown">Ends in 02h 14m</span>
-          </div>
-
-          <div class="meter-wrap">
-            <div class="meter-track">
-              <div class="meter-fill meter-fill-blue" style="width:61%;"></div>
-              <div class="meter-pointer" style="left:61%;"></div>
-            </div>
-          </div>
-
-          <div class="post-actions">
-            <div class="actions-left">
-              <button class="icon-text"><img src="assets/icons/icon-like.svg" alt="" /><span>120</span></button>
-              <button class="icon-text"><img src="assets/icons/icon-comment.svg" alt="" /><span>24</span></button>
-              <button class="icon-text"><img src="assets/icons/icon-share.svg" alt="" /><span>Share on X</span></button>
-              <button class="icon-text"><img src="assets/icons/icon-share.svg" alt="" /><span>Copy link</span></button>
-            </div>
-            <div class="actions-right subtle-strong">
-              <span>$9,210 at stake</span>
-              <span>842 voters</span>
-            </div>
-          </div>
-        </article>
-
-        <article class="battle-card card ended-card">
-          <div class="post-head">
-            <div class="user-row">
-              <img src="assets/images/avatar-default.jpg" class="avatar avatar-sm" alt="Creator avatar placeholder" />
-              <div>
-                <div class="eyebrow">Hello, username</div>
-                <div class="subtle">0x8fd0...ef12</div>
-              </div>
-            </div>
-            <div class="head-right">
-              <span class="status-badge ended">Ended</span>
-              <span class="added-money added-ended">Final snapshot</span>
-            </div>
-          </div>
-
-          <div class="battle-copy">
-            <h2>What’s the stronger long-term asset?</h2>
-            <p>Ended battles turn neutral gray. Only the winning color stays visible so the result feels final and easier to read.</p>
-          </div>
-
-          <div class="battle-grid">
-            <div class="battle-panel battle-panel-a winner-panel">
-              <div class="panel-name">BTC</div>
-              <img src="assets/images/poll-btc.jpg" alt="Option A placeholder" />
-              <div class="panel-percent">54%</div>
-              <button class="vote-btn vote-btn-ended">Winner</button>
-            </div>
-
-            <div class="battle-panel battle-panel-ended">
-              <div class="panel-name">ETH</div>
-              <img src="assets/images/poll-eth.jpg" alt="Option B placeholder" />
-              <div class="panel-percent">46%</div>
-              <button class="vote-btn vote-btn-ended">Ended</button>
-            </div>
-          </div>
-
-          <div class="meta-top">
-            <span class="countdown ended-text">Ended 01h ago</span>
-          </div>
-
-          <div class="meter-wrap">
-            <div class="meter-track ended-meter">
-              <div class="meter-fill meter-fill-blue" style="width:54%;"></div>
-              <div class="meter-pointer" style="left:54%;"></div>
-            </div>
-          </div>
-
-          <div class="post-actions">
-            <div class="actions-left">
-              <button class="icon-text"><img src="assets/icons/icon-like.svg" alt="" /><span>340</span></button>
-              <button class="icon-text"><img src="assets/icons/icon-comment.svg" alt="" /><span>81</span></button>
-              <button class="icon-text"><img src="assets/icons/icon-share.svg" alt="" /><span>Share on X</span></button>
-              <button class="icon-text"><img src="assets/icons/icon-share.svg" alt="" /><span>Copy link</span></button>
-            </div>
-            <div class="actions-right subtle-strong">
-              <span>$12,430 at stake</span>
-              <span>1,248 voters</span>
-            </div>
-          </div>
-        </article>
-
-      </section>
-    </main>
+<header class="header">
+  <div class="logo">VOTAGE</div>
+  <div class="top-actions">
+    <span class="hello">Hello, connect your wallet to start a battle</span>
+    <button class="connect">Connect</button>
   </div>
+</header>
 
-  <div class="bottom-nav">
-    <a href="index.html" class="bottom-link active">Home</a>
-    <a href="results.html" class="bottom-link">Results</a>
-    <a href="#" class="bottom-link js-open-swap">Swap</a>
-    <a href="market.html" class="bottom-link">Market</a>
-    <a href="points.html" class="bottom-link">Points</a>
-  </div>
+<section class="hero">
+  <h1>Vote. Prove your conviction.</h1>
+  <p>Discover what wins through real participation.</p>
+  <button class="primary">Start Battle</button>
+</section>
 
-  <div class="swap-modal" id="swapModal">
-    <div class="swap-card">
-      <div class="swap-head">
-        <h3>Swap</h3>
-        <button class="soft-mini js-close-swap">Close</button>
-      </div>
-      <div class="swap-box">
-        <label>From</label>
-        <div class="swap-input">USDC • 100.00</div>
-      </div>
-      <div class="swap-box">
-        <label>To</label>
-        <div class="swap-input">VTG • 1,240.00</div>
-      </div>
-      <button class="primary-wide">Swap now</button>
-    </div>
-  </div>
+<section class="categories">
+  <div class="cat">🔥 Hot</div>
+  <div class="cat">🎬 Movies</div>
+  <div class="cat">🍔 Food</div>
+  <div class="cat">🎨 Design</div>
+  <div class="cat">⚽ Sports</div>
+</section>
 
-  <script src="js/app.js"></script>
+<section class="feed" id="feed"></section>
+
+<script src="app.js"></script>
 </body>
 </html>
