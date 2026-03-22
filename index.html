@@ -8,7 +8,7 @@
 <style>
 body {
   margin:0;
-  font-family:Arial;
+  font-family: Arial;
   background:#0f0f0f;
   color:white;
 }
@@ -18,11 +18,14 @@ header {
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:15px;
+  padding:15px 30px;
   border-bottom:1px solid #222;
 }
 
-.logo { font-weight:bold; font-size:20px; }
+.logo {
+  font-size:22px;
+  font-weight:bold;
+}
 
 .user {
   display:flex;
@@ -32,89 +35,85 @@ header {
 
 .user img {
   width:35px;
-  height:35px;
   border-radius:50%;
-}
-
-/* LAYOUT */
-.container {
-  display:flex;
-}
-
-/* FEED */
-.feed {
-  flex:1;
-  padding:15px;
-}
-
-/* SIDEBAR */
-.sidebar {
-  width:280px;
-  border-left:1px solid #222;
-  padding:15px;
-}
-
-.section-title {
-  font-size:14px;
-  color:#aaa;
-  margin-bottom:10px;
 }
 
 /* CATEGORIES */
 .categories {
   display:flex;
   gap:10px;
-  overflow-x:auto;
-  margin-bottom:15px;
+  padding:15px 30px;
+  border-bottom:1px solid #222;
 }
 
 .category {
   border:1px solid #333;
-  padding:6px 12px;
+  padding:6px 14px;
   border-radius:20px;
-  font-size:12px;
-  display:flex;
-  align-items:center;
-  gap:5px;
+  font-size:13px;
   cursor:pointer;
 }
 
-.category img {
-  width:16px;
+/* HOT BAR */
+.hot-bar {
+  display:flex;
+  gap:10px;
+  padding:15px 30px;
+  overflow-x:auto;
+}
+
+.hot-item {
+  background:#1a1a1a;
+  padding:10px 15px;
+  border-radius:20px;
+  font-size:13px;
+  white-space:nowrap;
+}
+
+/* MAIN */
+.main {
+  display:grid;
+  grid-template-columns: 1fr 300px;
+  gap:20px;
+  padding:20px 30px;
+}
+
+/* FEED */
+.feed {
+  max-width:700px;
 }
 
 /* CARD */
 .card {
   background:#1a1a1a;
   border-radius:12px;
-  padding:15px;
-  margin-bottom:15px;
+  padding:20px;
+  margin-bottom:20px;
 }
 
 .creator {
   display:flex;
-  align-items:center;
   gap:10px;
   margin-bottom:10px;
 }
 
 .creator img {
-  width:35px;
+  width:40px;
   border-radius:50%;
 }
 
 .title {
-  font-size:16px;
+  font-size:18px;
   margin-bottom:5px;
 }
 
 .desc {
-  font-size:13px;
+  font-size:14px;
   color:#aaa;
-  margin-bottom:10px;
+  margin-bottom:15px;
 }
 
-/* IMAGENS */
+/* IMAGES */
 .images {
   display:flex;
   gap:10px;
@@ -130,57 +129,75 @@ header {
 
 .option img {
   width:100%;
-  height:120px;
+  height:150px;
   object-fit:cover;
 }
 
 .option span {
   position:absolute;
-  bottom:5px;
+  bottom:10px;
   left:10px;
-  font-size:14px;
+  font-size:15px;
 }
 
-/* CORES */
 .optionA { border:2px solid #3498db; }
 .optionB { border:2px solid #f1c40f; }
 
-/* BARRA */
+/* BAR */
 .bar {
   margin-top:10px;
   height:8px;
   background:#333;
   border-radius:10px;
-  overflow:hidden;
 }
 
 .fill {
   height:100%;
+  width:65%;
   background:#3498db;
-  width:60%;
 }
 
 /* COMMENTS */
 .comments {
   margin-top:10px;
-  font-size:13px;
+  font-size:14px;
   color:#aaa;
   cursor:pointer;
 }
 
-/* SIDEBAR ITEMS */
-.rank-item, .hot-item {
+/* SIDEBAR */
+.sidebar {
+  border-left:1px solid #222;
+  padding-left:20px;
+}
+
+.section {
+  margin-bottom:20px;
+}
+
+.section h4 {
+  color:#aaa;
+  margin-bottom:10px;
+}
+
+.item {
   margin-bottom:8px;
-  font-size:13px;
+  font-size:14px;
 }
 
 /* MOBILE */
 @media(max-width:900px){
-  .sidebar { display:none; }
+  .main {
+    grid-template-columns: 1fr;
+  }
+  .sidebar {
+    display:none;
+  }
 }
 </style>
 
 </head>
+
 <body>
 
 <header>
@@ -192,70 +209,80 @@ header {
   </div>
 </header>
 
-<div class="container">
-
-<!-- FEED -->
-<div class="feed">
-
-  <!-- CATEGORIES -->
-  <div class="categories">
-    <div class="category"><img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png">All</div>
-    <div class="category"><img src="https://cdn-icons-png.flaticon.com/512/3081/3081559.png">Crypto</div>
-    <div class="category"><img src="https://cdn-icons-png.flaticon.com/512/727/727245.png">Music</div>
-    <div class="category"><img src="https://cdn-icons-png.flaticon.com/512/833/833472.png">Games</div>
-  </div>
-
-  <!-- CARD -->
-  <div class="card">
-
-    <div class="creator">
-      <img src="https://api.dicebear.com/7.x/identicon/svg?seed=2">
-      <div>
-        <div>@user123</div>
-        <small style="color:#aaa;">0x123...89ab</small>
-      </div>
-    </div>
-
-    <div class="title">Who is better?</div>
-
-    <div class="desc">
-      Sonic vs Mario in speed and gameplay... <span style="color:white;">see more</span>
-    </div>
-
-    <div class="images">
-      <div class="option optionA">
-        <img src="https://upload.wikimedia.org/wikipedia/en/5/5f/Sonic_the_Hedgehog.png">
-        <span>Sonic</span>
-      </div>
-
-      <div class="option optionB">
-        <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/MarioNSMBUDeluxe.png">
-        <span>Mario</span>
-      </div>
-    </div>
-
-    <div class="bar">
-      <div class="fill"></div>
-    </div>
-
-    <div class="comments">💬 24 comments</div>
-
-  </div>
-
+<!-- CATEGORIES -->
+<div class="categories">
+  <div class="category">All</div>
+  <div class="category">Crypto</div>
+  <div class="category">Music</div>
+  <div class="category">Games</div>
 </div>
 
-<!-- SIDEBAR -->
-<div class="sidebar">
-
-  <div class="section-title">🔥 HOT</div>
-  <div class="hot-item">BTC vs ETH</div>
-  <div class="hot-item">Messi vs Ronaldo</div>
-
-  <div class="section-title">🏆 TOP USERS</div>
-  <div class="rank-item">#1 0x123... 1200 pts</div>
-  <div class="rank-item">#2 0x456... 980 pts</div>
-
+<!-- HOT -->
+<div class="hot-bar">
+  <div class="hot-item">🔥 BTC vs ETH</div>
+  <div class="hot-item">🔥 Messi vs Ronaldo</div>
+  <div class="hot-item">🔥 Apple vs Android</div>
 </div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- FEED -->
+  <div class="feed">
+
+    <div class="card">
+
+      <div class="creator">
+        <img src="https://api.dicebear.com/7.x/identicon/svg?seed=2">
+        <div>
+          <div>@user123</div>
+          <small style="color:#aaa;">0x123...89ab</small>
+        </div>
+      </div>
+
+      <div class="title">Who is better?</div>
+      <div class="desc">
+        Sonic vs Mario in speed and gameplay... <span style="color:white;">see more</span>
+      </div>
+
+      <div class="images">
+        <div class="option optionA">
+          <img src="https://upload.wikimedia.org/wikipedia/en/5/5f/Sonic_the_Hedgehog.png">
+          <span>Sonic</span>
+        </div>
+
+        <div class="option optionB">
+          <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/MarioNSMBUDeluxe.png">
+          <span>Mario</span>
+        </div>
+      </div>
+
+      <div class="bar">
+        <div class="fill"></div>
+      </div>
+
+      <div class="comments">💬 24 comments</div>
+
+    </div>
+
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+
+    <div class="section">
+      <h4>🏆 TOP USERS</h4>
+      <div class="item">#1 0x123... 1200 pts</div>
+      <div class="item">#2 0x456... 980 pts</div>
+    </div>
+
+    <div class="section">
+      <h4>🔥 TRENDING</h4>
+      <div class="item">BTC vs ETH</div>
+      <div class="item">iPhone vs Samsung</div>
+    </div>
+
+  </div>
 
 </div>
 
