@@ -1,159 +1,261 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Votage</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Votage</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0f0f0f;
-      color: white;
-    }
+<style>
+body {
+  margin:0;
+  font-family:Arial;
+  background:#0f0f0f;
+  color:white;
+}
 
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px;
-      background: #111;
-      border-bottom: 1px solid #222;
-    }
+/* HEADER */
+header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px;
+  border-bottom:1px solid #222;
+}
 
-    .logo {
-      font-size: 22px;
-      font-weight: bold;
-    }
+.logo { font-weight:bold; font-size:20px; }
 
-    .btn {
-      background: linear-gradient(90deg, #344566, #8b8e95);
-      border: none;
-      padding: 10px 18px;
-      border-radius: 8px;
-      color: white;
-      cursor: pointer;
-    }
+.user {
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
 
-    .container {
-      display: flex;
-    }
+.user img {
+  width:35px;
+  height:35px;
+  border-radius:50%;
+}
 
-    /* Sidebar ranking */
-    .sidebar {
-      width: 300px;
-      border-right: 1px solid #222;
-      padding: 20px;
-    }
+/* LAYOUT */
+.container {
+  display:flex;
+}
 
-    .ranking-item {
-      margin-bottom: 10px;
-      font-size: 14px;
-    }
+/* FEED */
+.feed {
+  flex:1;
+  padding:15px;
+}
 
-    /* Feed */
-    .feed {
-      flex: 1;
-      padding: 20px;
-    }
+/* SIDEBAR */
+.sidebar {
+  width:280px;
+  border-left:1px solid #222;
+  padding:15px;
+}
 
-    .categories {
-      margin-bottom: 20px;
-    }
+.section-title {
+  font-size:14px;
+  color:#aaa;
+  margin-bottom:10px;
+}
 
-    .category {
-      margin-right: 10px;
-      cursor: pointer;
-      color: #aaa;
-    }
+/* CATEGORIES */
+.categories {
+  display:flex;
+  gap:10px;
+  overflow-x:auto;
+  margin-bottom:15px;
+}
 
-    .category.active {
-      color: white;
-      font-weight: bold;
-    }
+.category {
+  border:1px solid #333;
+  padding:6px 12px;
+  border-radius:20px;
+  font-size:12px;
+  display:flex;
+  align-items:center;
+  gap:5px;
+  cursor:pointer;
+}
 
-    .card {
-      background: #1a1a1a;
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 20px;
-    }
+.category img {
+  width:16px;
+}
 
-    .poll-options {
-      display: flex;
-      gap: 10px;
-      margin-top: 10px;
-    }
+/* CARD */
+.card {
+  background:#1a1a1a;
+  border-radius:12px;
+  padding:15px;
+  margin-bottom:15px;
+}
 
-    .option {
-      flex: 1;
-      background: #222;
-      padding: 15px;
-      border-radius: 10px;
-      text-align: center;
-      cursor: pointer;
-    }
+.creator {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:10px;
+}
 
-    .option:hover {
-      background: #333;
-    }
+.creator img {
+  width:35px;
+  border-radius:50%;
+}
 
-  </style>
+.title {
+  font-size:16px;
+  margin-bottom:5px;
+}
+
+.desc {
+  font-size:13px;
+  color:#aaa;
+  margin-bottom:10px;
+}
+
+/* IMAGENS */
+.images {
+  display:flex;
+  gap:10px;
+}
+
+.option {
+  flex:1;
+  border-radius:10px;
+  overflow:hidden;
+  cursor:pointer;
+  position:relative;
+}
+
+.option img {
+  width:100%;
+  height:120px;
+  object-fit:cover;
+}
+
+.option span {
+  position:absolute;
+  bottom:5px;
+  left:10px;
+  font-size:14px;
+}
+
+/* CORES */
+.optionA { border:2px solid #3498db; }
+.optionB { border:2px solid #f1c40f; }
+
+/* BARRA */
+.bar {
+  margin-top:10px;
+  height:8px;
+  background:#333;
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.fill {
+  height:100%;
+  background:#3498db;
+  width:60%;
+}
+
+/* COMMENTS */
+.comments {
+  margin-top:10px;
+  font-size:13px;
+  color:#aaa;
+  cursor:pointer;
+}
+
+/* SIDEBAR ITEMS */
+.rank-item, .hot-item {
+  margin-bottom:8px;
+  font-size:13px;
+}
+
+/* MOBILE */
+@media(max-width:900px){
+  .sidebar { display:none; }
+}
+</style>
+
 </head>
-
 <body>
 
 <header>
   <div class="logo">VOTAGE</div>
-  <button class="btn">Connect Wallet</button>
+
+  <div class="user">
+    <span>Hello, user</span>
+    <img src="https://api.dicebear.com/7.x/identicon/svg?seed=1">
+  </div>
 </header>
 
 <div class="container">
 
-  <!-- Ranking -->
-  <div class="sidebar">
-    <h3>Top Players</h3>
-    <div class="ranking-item">#1 Wallet 0x123... - 1200 pts</div>
-    <div class="ranking-item">#2 Wallet 0x456... - 980 pts</div>
-    <div class="ranking-item">#3 Wallet 0x789... - 870 pts</div>
+<!-- FEED -->
+<div class="feed">
+
+  <!-- CATEGORIES -->
+  <div class="categories">
+    <div class="category"><img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png">All</div>
+    <div class="category"><img src="https://cdn-icons-png.flaticon.com/512/3081/3081559.png">Crypto</div>
+    <div class="category"><img src="https://cdn-icons-png.flaticon.com/512/727/727245.png">Music</div>
+    <div class="category"><img src="https://cdn-icons-png.flaticon.com/512/833/833472.png">Games</div>
   </div>
 
-  <!-- Feed -->
-  <div class="feed">
+  <!-- CARD -->
+  <div class="card">
 
-    <!-- Categories -->
-    <div class="categories">
-      <span class="category active">All</span>
-      <span class="category">Crypto</span>
-      <span class="category">Music</span>
-      <span class="category">Games</span>
-      <span class="category">Politics</span>
-    </div>
-
-    <!-- Poll -->
-    <div class="card">
-      <h2>Who is better?</h2>
-      <p>Sonic vs Mario</p>
-
-      <div class="poll-options">
-        <div class="option">Sonic</div>
-        <div class="option">Mario</div>
+    <div class="creator">
+      <img src="https://api.dicebear.com/7.x/identicon/svg?seed=2">
+      <div>
+        <div>@user123</div>
+        <small style="color:#aaa;">0x123...89ab</small>
       </div>
     </div>
 
-    <!-- Poll -->
-    <div class="card">
-      <h2>Best investment?</h2>
-      <p>BTC vs ETH</p>
+    <div class="title">Who is better?</div>
 
-      <div class="poll-options">
-        <div class="option">BTC</div>
-        <div class="option">ETH</div>
+    <div class="desc">
+      Sonic vs Mario in speed and gameplay... <span style="color:white;">see more</span>
+    </div>
+
+    <div class="images">
+      <div class="option optionA">
+        <img src="https://upload.wikimedia.org/wikipedia/en/5/5f/Sonic_the_Hedgehog.png">
+        <span>Sonic</span>
+      </div>
+
+      <div class="option optionB">
+        <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/MarioNSMBUDeluxe.png">
+        <span>Mario</span>
       </div>
     </div>
 
+    <div class="bar">
+      <div class="fill"></div>
+    </div>
+
+    <div class="comments">💬 24 comments</div>
+
   </div>
+
+</div>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+
+  <div class="section-title">🔥 HOT</div>
+  <div class="hot-item">BTC vs ETH</div>
+  <div class="hot-item">Messi vs Ronaldo</div>
+
+  <div class="section-title">🏆 TOP USERS</div>
+  <div class="rank-item">#1 0x123... 1200 pts</div>
+  <div class="rank-item">#2 0x456... 980 pts</div>
+
+</div>
 
 </div>
 
