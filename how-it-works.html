@@ -1,53 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Votage — How it works</title>
-  <link rel="icon" type="image/svg+xml" href="assets/icons/Favicon-VTA.svg" />
-  <link rel="stylesheet" href="css/style.css" />
-</head>
-<body>
-  <div class="app-shell">
-    
-  <header class="topbar">
-    <div class="topbar-left">
-      <a class="brand" href="index.html">
-        <img src="assets/icons/logo-mark.svg" alt="Votage logo" class="brand-mark" />
-      </a>
-      <button class="primary-action">
-        <img src="assets/icons/icon-create.svg" alt="" />
-        <span>Start Battle</span>
-      </button>
-      <nav class="main-nav">
-        <a href="results.html" class="nav-link"><img src="assets/icons/icon-results.svg" alt="" /> Results</a>
-        <a href="#" class="nav-link js-open-swap"><img src="assets/icons/icon-swap.svg" alt="" /> Swap</a>
-        <a href="market.html" class="nav-link"><img src="assets/icons/icon-market.svg" alt="" /> Market</a>
-        <a href="points.html" class="nav-link"><img src="assets/icons/icon-points.svg" alt="" /> Points</a>
-        <a href="how-it-works.html" class="nav-link"><img src="assets/icons/icon-help.svg" alt="" /> How it works</a>
-      </nav>
-    </div>
-    <div class="topbar-right">
-      <button class="wallet-btn js-wallet">Connect Wallet</button>
-    </div>
-  </header>
-
-    <main class="simple-page">
-      <section class="card lp-hero">
-        <div class="lp-copy">
-          <div class="eyebrow">Vote to Advantage</div>
-          <h1>Build conviction. Pick a side. Move the market.</h1>
-          <p>Use this page to explain battles, points, seasons, rewards, burn logic, referral mechanics, share flow and FAQs.</p>
-          <div class="inline-actions">
-            <button class="primary-action"><img src="assets/icons/icon-create.svg" alt="" /><span>Start Battle</span></button>
-            <button class="soft-btn">Read FAQ</button>
-          </div>
-        </div>
-        <div class="lp-art">
-          <img src="assets/images/hero-lp.jpg" alt="Hero placeholder" />
-        </div>
-      </section>
-    </main>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Votage • How it works</title><link rel="icon" href="assets/images/logo.webp"/><link rel="stylesheet" href="css/styles.css"/><script src="https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.umd.min.js"></script><script src="js/config.js"></script><script defer src="js/app.js"></script></head><body data-page="how"><div class="app">
+<header class="topbar">
+  <a class="brand" href="index.html"><img src="assets/images/logo.webp" alt="Votage logo" /></a>
+  <nav class="nav">
+    <button class="primary-btn" id="openCreateBtn"><img class="icon" src="assets/icons/plus.svg" alt="" />Start Battle</button>
+    <a href="index.html" data-nav="home">Home</a>
+    <a href="results.html" data-nav="results">Results</a>
+    <a href="market.html" data-nav="market">Market</a>
+    <a href="points.html" data-nav="points">Points</a>
+    <a href="how-it-works.html" data-nav="how">How it works</a>
+  </nav>
+  <div class="wallet-zone">
+    <span class="hello-chip" id="helloChip">Hello, connect your wallet to start a battle</span>
+    <button class="connect-btn" id="connectBtn"><img class="icon" src="assets/icons/wallet.svg" alt="" />Connect Wallet</button>
   </div>
-  <script src="js/app.js"></script>
-</body>
-</html>
+</header>
+<main class="layout no-right"><section class="stack"><section class="card hero"><div class="hero-copy"><div class="kicker">How it works</div><h1>Discover what wins.</h1><p>Votage is a social voting arena. Users create battles, choose a side and move value through participation. Gas and voting friction stay low because the current deployed battle contract accepts USDC, while rewards flow in WIN.</p></div><div class="hero-visual"><img src="assets/images/how-banner.webp" alt="How banner" /></div></section><section class="card side-card"><h3>Protocol flow</h3><div class="small" style="line-height:1.9"><strong>1.</strong> Create a battle on-chain with a duration from 1 to 7 days.<br/><strong>2.</strong> Users vote with USDC on either side.<br/><strong>3.</strong> The battle resolves when time ends.<br/><strong>4.</strong> 74% goes to winners, 10% to the creator, 5% to treasury, 5% to burn, 6% to the airdrop pool.<br/><strong>5.</strong> Winners claim in WIN.</div></section><section class="grid-two"><section class="card side-card"><h3>FAQ</h3><div class="small" style="line-height:1.8"><strong>Is this gambling?</strong><br/>No. Battles are collective decision flows around opinions, brands, culture and crypto narratives.<br/><br/><strong>Why USDC in and WIN out?</strong><br/>It removes swap friction at the start while still tying rewards to the protocol token.<br/><br/><strong>Does testnet value carry over?</strong><br/>No direct monetary value carries over. Testnet is for product validation and community traction.</div></section><section class="card side-card"><h3>Legal notes</h3><div class="small" style="line-height:1.8">This build is a testnet product layer. Nothing on testnet represents guaranteed financial value. Contract logic and token distribution may change before mainnet launch. Always review local legal requirements and launchpad rules before public fundraising or token generation.</div></section></section></section></main></div>
+<div class="modal-backdrop" id="createModal"><div class="modal">
+<div class="modal-head"><h3>Create Battle</h3><button class="soft-btn" data-close-modal="createModal">Close</button></div>
+<div class="form-grid">
+<div class="stack">
+<div class="field"><label>Battle title</label><input id="battleTitle" maxlength="80" placeholder="Who defined platform gaming better?" /></div>
+<div class="field"><label>Description</label><textarea id="battleDescription" maxlength="300" placeholder="Keep it short and clear."></textarea></div>
+<div class="field"><label>Category</label><select id="battleCategory"><option>Games</option><option>Crypto</option><option>Tech</option><option>Movies</option><option>Food</option><option>Design</option><option>Sports</option><option>Trends</option></select></div>
+<div class="field"><label>Duration</label><div class="duration-chips" id="durationChips"></div><div class="helper">Selected duration is written on-chain. Current deployed battle contract does not charge a creation fee.</div></div>
+</div>
+<div class="stack">
+<div class="grid-two"><div class="field"><label>Option A label</label><input id="labelA" maxlength="22" placeholder="Mario World" /></div><div class="field"><label>Option B label</label><input id="labelB" maxlength="22" placeholder="Sonic the Hedgehog" /></div></div>
+<div class="grid-two"><div class="field"><label>Image 1 (blue)</label><div class="dropzone blue" id="dropA"><div><img class="icon" src="assets/icons/image.svg" alt="" /><div>Drop or upload JPG, PNG or WEBP</div><div class="helper">Max 2MB • auto convert WEBP 75% • 800px</div></div><input class="hidden" type="file" accept="image/png,image/jpeg,image/webp" id="fileA" /></div></div>
+<div class="field"><label>Image 2 (red)</label><div class="dropzone red" id="dropB"><div><img class="icon" src="assets/icons/image.svg" alt="" /><div>Drop or upload JPG, PNG or WEBP</div><div class="helper">Max 2MB • auto convert WEBP 75% • 800px</div></div><input class="hidden" type="file" accept="image/png,image/jpeg,image/webp" id="fileB" /></div></div></div>
+<div class="helper" id="imageError"></div>
+</div></div>
+<div class="preview-card" id="battlePreview"></div>
+<div class="modal-head" style="margin-top:14px"><div class="helper">Metadata is stored locally in this test build because the deployed battle contract only stores duration and pool values on-chain.</div><button class="primary-btn" id="submitBattleBtn">Create on chain</button></div>
+</div></div>
+
+<div class="modal-backdrop" id="voteModal"><div class="modal modal-sm">
+<div class="modal-head"><h3>Confirm Vote</h3><button class="soft-btn" data-close-modal="voteModal">Close</button></div>
+<div id="voteModalBody"></div>
+<div class="modal-head" style="margin-top:16px"><div class="helper">Default UI uses 1, 5 or 10 USDC quick actions. The deployed contract accepts any USDC amount.</div><button class="primary-btn" id="confirmVoteBtn">Confirm Vote</button></div>
+</div></div>
+<nav class="bottom-nav"><a href="index.html">Home</a><a href="results.html">Results</a><a href="market.html">Market</a><a href="points.html">Points</a><a href="how-it-works.html">How</a></nav></body></html>

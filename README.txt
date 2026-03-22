@@ -1,34 +1,22 @@
 
-Votage revised package
+Votage premium final test build
 
-Updates included:
-- Uses uploaded logo-mark.svg and preserves its native proportion
-- Favicon wired as assets/icons/Favicon-VTA.svg using the logo as fallback
-- Text next to logo removed
-- Profile renamed to Points
-- One desktop side rail only
-- Categories moved above feed
-- Search added above categories
-- Ended cards turn gray except winner color
-- Live/Ended badges use outline only
-- Shadows removed from boxes
-- Vote buttons and image panels aligned to the same width
-- Title/description outside the image blocks
-- Countdown moved near status area
-- Added amount moved to top-right
-- Bottom action row cleaned
-- Right-side values now at stake + voters
-- Swap opens as modal overlay from the same page
-- Added Results, Market, Points and How it works pages
-- Mobile bottom nav included as a starting pattern
+Live wired:
+- Wallet connect
+- Reads WIN, BattleManager FINAL, RewardDistributor
+- Create battle on-chain
+- Approve USDC and vote on-chain
+- Resolve and claim on-chain
+- Results page from live battles
+- Market reads live balances
 
-Files:
-- index.html
-- results.html
-- market.html
-- points.html
-- how-it-works.html
-- css/style.css
-- js/app.js
-- assets/images/*
-- assets/icons/*
+Local/front-end only:
+- Battle title, description, labels, category and images (stored in localStorage because the deployed BattleManager FINAL only stores duration and pool values on-chain)
+- Human verification, points, streak, badges, profile edit
+- X connect state
+
+Not wired because no contract/router was provided:
+- real swap
+- real liquidity add/remove
+
+Contract addresses are already configured in js/config.js.

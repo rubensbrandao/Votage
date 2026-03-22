@@ -1,44 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Votage</title>
-<link rel="stylesheet" href="styles.css">
-</head>
-<body>
-
-<header class="header">
-  <div class="logo">VOTAGE</div>
-  <div class="nav">
-    <a href="index.html">Home</a>
-    <a href="results.html">Results</a>
-    <a href="market.html">Market</a>
-    <a href="points.html">Points</a>
-    <a href="profile.html">Profile</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Votage</title><link rel="icon" href="assets/images/logo.webp"/><link rel="stylesheet" href="css/styles.css"/><script src="https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.umd.min.js"></script><script src="js/config.js"></script><script defer src="js/app.js"></script></head><body data-page="home"><div class="app">
+<header class="topbar">
+  <a class="brand" href="index.html"><img src="assets/images/logo.webp" alt="Votage logo" /></a>
+  <nav class="nav">
+    <button class="primary-btn" id="openCreateBtn"><img class="icon" src="assets/icons/plus.svg" alt="" />Start Battle</button>
+    <a href="index.html" data-nav="home">Home</a>
+    <a href="results.html" data-nav="results">Results</a>
+    <a href="market.html" data-nav="market">Market</a>
+    <a href="points.html" data-nav="points">Points</a>
+    <a href="how-it-works.html" data-nav="how">How it works</a>
+  </nav>
+  <div class="wallet-zone">
+    <span class="hello-chip" id="helloChip">Hello, connect your wallet to start a battle</span>
+    <button class="connect-btn" id="connectBtn"><img class="icon" src="assets/icons/wallet.svg" alt="" />Connect Wallet</button>
   </div>
-  <button class="connect">Connect</button>
 </header>
 
+<main class="layout">
+<section class="stack">
+<section class="card hero"><div class="hero-copy"><div class="kicker">Vote to Advantage</div><h1>Vote. Prove your conviction.</h1><p>A social voting arena where opinions have weight, battles move with value, and rewards are tied to real participation.</p><div class="hero-actions"><button class="primary-btn" id="heroCreateBtn">Start Battle</button><a class="soft-btn" href="points.html">Verify & Earn</a></div></div><div class="hero-visual"><img src="assets/images/hero.webp" alt="Hero" /></div></section>
+<section class="card search-block"><div class="search-row"><div class="search-box"><img class="icon" src="assets/icons/search.svg" alt="" /><input id="searchInput" placeholder="Search battles, users..." /></div><button class="soft-btn" id="refreshFeedBtn"><img class="icon" src="assets/icons/refresh.svg" alt="" />Refresh</button></div><div class="categories" id="categoryBar"><button class="chip active" data-cat="All">All</button><button class="chip" data-cat="Crypto">Crypto</button><button class="chip" data-cat="Tech">Tech</button><button class="chip" data-cat="Games">Games</button><button class="chip" data-cat="Movies">Movies</button><button class="chip" data-cat="Food">Food</button><button class="chip" data-cat="Design">Design</button><button class="chip" data-cat="Sports">Sports</button><button class="chip" data-cat="Trends">Trends</button></div></section>
+<div id="feed"></div></section>
+<aside class="right-rail">
+<section class="card side-card"><h3>Leaderboard</h3><div class="list" id="leaderboard"></div></section>
+<section class="card side-card"><h3>Live Protocol Snapshot</h3><div class="kv"><div class="box"><span>WIN contract</span><strong class="mono" id="winAddressShort">—</strong></div><div class="box"><span>BattleManager</span><strong class="mono" id="bmAddressShort">—</strong></div><div class="box"><span>Battle count</span><strong id="battleCountMetric">—</strong></div><div class="box"><span>Airdrop pool</span><strong id="airdropMetric">—</strong></div></div></section>
+<section class="card side-card"><img src="assets/images/home-inline-banner.webp" alt="Banner placeholder" /></section>
+</aside>
+</main>
+</div>
+<div class="modal-backdrop" id="createModal"><div class="modal">
+<div class="modal-head"><h3>Create Battle</h3><button class="soft-btn" data-close-modal="createModal">Close</button></div>
+<div class="form-grid">
+<div class="stack">
+<div class="field"><label>Battle title</label><input id="battleTitle" maxlength="80" placeholder="Who defined platform gaming better?" /></div>
+<div class="field"><label>Description</label><textarea id="battleDescription" maxlength="300" placeholder="Keep it short and clear."></textarea></div>
+<div class="field"><label>Category</label><select id="battleCategory"><option>Games</option><option>Crypto</option><option>Tech</option><option>Movies</option><option>Food</option><option>Design</option><option>Sports</option><option>Trends</option></select></div>
+<div class="field"><label>Duration</label><div class="duration-chips" id="durationChips"></div><div class="helper">Selected duration is written on-chain. Current deployed battle contract does not charge a creation fee.</div></div>
+</div>
+<div class="stack">
+<div class="grid-two"><div class="field"><label>Option A label</label><input id="labelA" maxlength="22" placeholder="Mario World" /></div><div class="field"><label>Option B label</label><input id="labelB" maxlength="22" placeholder="Sonic the Hedgehog" /></div></div>
+<div class="grid-two"><div class="field"><label>Image 1 (blue)</label><div class="dropzone blue" id="dropA"><div><img class="icon" src="assets/icons/image.svg" alt="" /><div>Drop or upload JPG, PNG or WEBP</div><div class="helper">Max 2MB • auto convert WEBP 75% • 800px</div></div><input class="hidden" type="file" accept="image/png,image/jpeg,image/webp" id="fileA" /></div></div>
+<div class="field"><label>Image 2 (red)</label><div class="dropzone red" id="dropB"><div><img class="icon" src="assets/icons/image.svg" alt="" /><div>Drop or upload JPG, PNG or WEBP</div><div class="helper">Max 2MB • auto convert WEBP 75% • 800px</div></div><input class="hidden" type="file" accept="image/png,image/jpeg,image/webp" id="fileB" /></div></div></div>
+<div class="helper" id="imageError"></div>
+</div></div>
+<div class="preview-card" id="battlePreview"></div>
+<div class="modal-head" style="margin-top:14px"><div class="helper">Metadata is stored locally in this test build because the deployed battle contract only stores duration and pool values on-chain.</div><button class="primary-btn" id="submitBattleBtn">Create on chain</button></div>
+</div></div>
 
-<section class="hero">
-  <h1>Vote. Prove your conviction.</h1>
-  <p>Discover what wins through real participation.</p>
-  <button class="primary">Start Battle</button>
-</section>
-
-<section class="banner">HERO IMAGE (edit .webp)</section>
-
-<section class="categories">
-  <div class="cat">Hot</div>
-  <div class="cat">Movies</div>
-  <div class="cat">Food</div>
-  <div class="cat">Design</div>
-</section>
-
-<section class="feed" id="feed"></section>
-
-
-<script src="app.js"></script>
-</body>
-</html>
+<div class="modal-backdrop" id="voteModal"><div class="modal modal-sm">
+<div class="modal-head"><h3>Confirm Vote</h3><button class="soft-btn" data-close-modal="voteModal">Close</button></div>
+<div id="voteModalBody"></div>
+<div class="modal-head" style="margin-top:16px"><div class="helper">Default UI uses 1, 5 or 10 USDC quick actions. The deployed contract accepts any USDC amount.</div><button class="primary-btn" id="confirmVoteBtn">Confirm Vote</button></div>
+</div></div>
+<nav class="bottom-nav"><a href="index.html">Home</a><a href="results.html">Results</a><a href="market.html">Market</a><a href="points.html">Points</a><a href="how-it-works.html">How</a></nav></body></html>

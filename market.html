@@ -1,33 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Votage</title>
-<link rel="stylesheet" href="styles.css">
-</head>
-<body>
-
-<header class="header">
-  <div class="logo">VOTAGE</div>
-  <div class="nav">
-    <a href="index.html">Home</a>
-    <a href="results.html">Results</a>
-    <a href="market.html">Market</a>
-    <a href="points.html">Points</a>
-    <a href="profile.html">Profile</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Votage • Market</title><link rel="icon" href="assets/images/logo.webp"/><link rel="stylesheet" href="css/styles.css"/><script src="https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.umd.min.js"></script><script src="js/config.js"></script><script defer src="js/app.js"></script></head><body data-page="market"><div class="app">
+<header class="topbar">
+  <a class="brand" href="index.html"><img src="assets/images/logo.webp" alt="Votage logo" /></a>
+  <nav class="nav">
+    <button class="primary-btn" id="openCreateBtn"><img class="icon" src="assets/icons/plus.svg" alt="" />Start Battle</button>
+    <a href="index.html" data-nav="home">Home</a>
+    <a href="results.html" data-nav="results">Results</a>
+    <a href="market.html" data-nav="market">Market</a>
+    <a href="points.html" data-nav="points">Points</a>
+    <a href="how-it-works.html" data-nav="how">How it works</a>
+  </nav>
+  <div class="wallet-zone">
+    <span class="hello-chip" id="helloChip">Hello, connect your wallet to start a battle</span>
+    <button class="connect-btn" id="connectBtn"><img class="icon" src="assets/icons/wallet.svg" alt="" />Connect Wallet</button>
   </div>
-  <button class="connect">Connect</button>
 </header>
+<main class="layout no-right"><section class="stack"><section class="card hero"><div class="hero-copy"><div class="kicker">Market</div><h1>Built for real usage, not noise.</h1><p>This page reads your deployed contracts, shows live balances and keeps the swap area ready. Because no live swap or pool contract address was provided, swapping is intentionally shown as unavailable instead of pretending to work.</p></div><div class="hero-visual"><img src="assets/images/market-banner.webp" alt="Market banner" /></div></section><section class="market-grid"><section class="card side-card"><h3>Live contracts</h3><div class="kv"><div class="box"><span>WIN</span><strong class="mono">0xf83E...E55F</strong></div><div class="box"><span>USDC</span><strong class="mono">0x3600...0000</strong></div><div class="box"><span>RewardDistributor</span><strong class="mono">0x781a...53e1</strong></div><div class="box"><span>Treasury</span><strong class="mono">0x55D7...84AE</strong></div></div><div class="kv" style="margin-top:16px"><div class="box"><span>WIN total supply</span><strong id="marketTotalSupply">—</strong></div><div class="box"><span>Your WIN</span><strong id="marketWalletWin">—</strong></div><div class="box"><span>BattleManager USDC</span><strong id="marketContractUsdc">—</strong></div><div class="box"><span>BattleManager WIN</span><strong id="marketContractWin">—</strong></div></div></section><section class="card side-card"><h3>Swap & liquidity</h3><div class="warning">No swap or pool contract address was supplied in the deployed contract set you shared. This panel is styled and ready, but real swapping cannot be wired honestly without a live router or liquidity contract.</div><div class="field" style="margin-top:14px"><label>From</label><input value="USDC" disabled /></div><div class="field"><label>To</label><input value="WIN" disabled /></div><div class="field"><label>Amount</label><input value="1.00" disabled /></div><button class="primary-btn" disabled style="opacity:.45;cursor:not-allowed">Swap (not wired yet)</button></section></section><section class="card side-card"><h3>Tokenomics</h3><div class="small" style="line-height:1.8">8% airdrop • 20% liquidity • 8% founders • 12% treasury • 52% ecosystem. Battle flow: 5% treasury • 5% burn • 10% creator • 6% airdrop pool • 74% winners.</div></section></section></main></div>
+<div class="modal-backdrop" id="createModal"><div class="modal">
+<div class="modal-head"><h3>Create Battle</h3><button class="soft-btn" data-close-modal="createModal">Close</button></div>
+<div class="form-grid">
+<div class="stack">
+<div class="field"><label>Battle title</label><input id="battleTitle" maxlength="80" placeholder="Who defined platform gaming better?" /></div>
+<div class="field"><label>Description</label><textarea id="battleDescription" maxlength="300" placeholder="Keep it short and clear."></textarea></div>
+<div class="field"><label>Category</label><select id="battleCategory"><option>Games</option><option>Crypto</option><option>Tech</option><option>Movies</option><option>Food</option><option>Design</option><option>Sports</option><option>Trends</option></select></div>
+<div class="field"><label>Duration</label><div class="duration-chips" id="durationChips"></div><div class="helper">Selected duration is written on-chain. Current deployed battle contract does not charge a creation fee.</div></div>
+</div>
+<div class="stack">
+<div class="grid-two"><div class="field"><label>Option A label</label><input id="labelA" maxlength="22" placeholder="Mario World" /></div><div class="field"><label>Option B label</label><input id="labelB" maxlength="22" placeholder="Sonic the Hedgehog" /></div></div>
+<div class="grid-two"><div class="field"><label>Image 1 (blue)</label><div class="dropzone blue" id="dropA"><div><img class="icon" src="assets/icons/image.svg" alt="" /><div>Drop or upload JPG, PNG or WEBP</div><div class="helper">Max 2MB • auto convert WEBP 75% • 800px</div></div><input class="hidden" type="file" accept="image/png,image/jpeg,image/webp" id="fileA" /></div></div>
+<div class="field"><label>Image 2 (red)</label><div class="dropzone red" id="dropB"><div><img class="icon" src="assets/icons/image.svg" alt="" /><div>Drop or upload JPG, PNG or WEBP</div><div class="helper">Max 2MB • auto convert WEBP 75% • 800px</div></div><input class="hidden" type="file" accept="image/png,image/jpeg,image/webp" id="fileB" /></div></div></div>
+<div class="helper" id="imageError"></div>
+</div></div>
+<div class="preview-card" id="battlePreview"></div>
+<div class="modal-head" style="margin-top:14px"><div class="helper">Metadata is stored locally in this test build because the deployed battle contract only stores duration and pool values on-chain.</div><button class="primary-btn" id="submitBattleBtn">Create on chain</button></div>
+</div></div>
 
-
-<section class="page">
-<h2>Market</h2>
-<div class="banner">MARKET BANNER</div>
-<p>Swap and liquidity coming here</p>
-</section>
-
-
-<script src="app.js"></script>
-</body>
-</html>
+<div class="modal-backdrop" id="voteModal"><div class="modal modal-sm">
+<div class="modal-head"><h3>Confirm Vote</h3><button class="soft-btn" data-close-modal="voteModal">Close</button></div>
+<div id="voteModalBody"></div>
+<div class="modal-head" style="margin-top:16px"><div class="helper">Default UI uses 1, 5 or 10 USDC quick actions. The deployed contract accepts any USDC amount.</div><button class="primary-btn" id="confirmVoteBtn">Confirm Vote</button></div>
+</div></div>
+<nav class="bottom-nav"><a href="index.html">Home</a><a href="results.html">Results</a><a href="market.html">Market</a><a href="points.html">Points</a><a href="how-it-works.html">How</a></nav></body></html>

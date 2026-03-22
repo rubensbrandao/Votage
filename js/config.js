@@ -1,0 +1,7 @@
+
+window.APP_CONFIG={chainName:"ARC Testnet",usdcDecimals:6,winDecimals:18,contracts:{win:"0xf83EC0b8A43cF921116EfF822a6334aFFd67E55F",rewardDistributor:"0x781a0A88Ad34841Eea028BfEAeC320Ed5A9053e1",battleManager:"0x14cDD5cd4Ab6a72e1196Cf4F0017f9Cf157abAA7",treasury:"0x55D794fc1524674c14984FECA4E132091A2184AE",usdc:"0x3600000000000000000000000000000000000000"}};
+window.ABIS={
+erc20:["function name() view returns (string)","function symbol() view returns (string)","function decimals() view returns (uint8)","function totalSupply() view returns (uint256)","function balanceOf(address) view returns (uint256)","function allowance(address,address) view returns (uint256)","function approve(address,uint256) returns (bool)","function transfer(address,uint256) returns (bool)"],
+battle:["function battleCount() view returns (uint256)","function airdropPool() view returns (uint256)","function createBattle(uint256 durationDays)","function vote(uint256 id,uint8 side,uint256 amount)","function resolve(uint256 id)","function claim(uint256 id)","function battles(uint256) view returns (address creator,uint256 startTime,uint256 endTime,uint256 totalA,uint256 totalB,bool resolved,uint8 winner,bool feesDistributed)","function contractBalances() view returns (uint256 usdcBalance,uint256 winBalance)"],
+rd:["function rewards(address) view returns (uint256)","function claimed(address) view returns (bool)","function claim()"]
+};

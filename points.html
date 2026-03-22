@@ -1,33 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Votage</title>
-<link rel="stylesheet" href="styles.css">
-</head>
-<body>
-
-<header class="header">
-  <div class="logo">VOTAGE</div>
-  <div class="nav">
-    <a href="index.html">Home</a>
-    <a href="results.html">Results</a>
-    <a href="market.html">Market</a>
-    <a href="points.html">Points</a>
-    <a href="profile.html">Profile</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Votage • Points</title><link rel="icon" href="assets/images/logo.webp"/><link rel="stylesheet" href="css/styles.css"/><script src="https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.umd.min.js"></script><script src="js/config.js"></script><script defer src="js/app.js"></script></head><body data-page="points"><div class="app">
+<header class="topbar">
+  <a class="brand" href="index.html"><img src="assets/images/logo.webp" alt="Votage logo" /></a>
+  <nav class="nav">
+    <button class="primary-btn" id="openCreateBtn"><img class="icon" src="assets/icons/plus.svg" alt="" />Start Battle</button>
+    <a href="index.html" data-nav="home">Home</a>
+    <a href="results.html" data-nav="results">Results</a>
+    <a href="market.html" data-nav="market">Market</a>
+    <a href="points.html" data-nav="points">Points</a>
+    <a href="how-it-works.html" data-nav="how">How it works</a>
+  </nav>
+  <div class="wallet-zone">
+    <span class="hello-chip" id="helloChip">Hello, connect your wallet to start a battle</span>
+    <button class="connect-btn" id="connectBtn"><img class="icon" src="assets/icons/wallet.svg" alt="" />Connect Wallet</button>
   </div>
-  <button class="connect">Connect</button>
 </header>
+<main class="layout no-right"><section class="stack"><section class="points-grid"><section class="card verify-card"><h3 style="margin:0">Verify & Earn</h3><div class="verify-banner"><div style="font-weight:800;margin-bottom:8px">Verify and earn</div><div class="small" style="line-height:1.7">For this front-end test build, the human check is simulated with a one-time local unlock. Your live reward claim still reads from the deployed RewardDistributor contract.</div><div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap"><button class="primary-btn" id="verifyPointsBtn">Verify & unlock points</button><div class="soft-btn" id="verifyStatusChip">Locked</div></div></div><div class="kv"><div class="box"><span>Your claimable WIN</span><strong id="claimableWin">—</strong></div><div class="box"><span>Already claimed</span><strong id="claimedStatus">—</strong></div><div class="box"><span>Points (local test)</span><strong id="localPoints">0</strong></div><div class="box"><span>Streak</span><strong id="localStreak">0 days</strong></div></div><div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:8px"><button class="primary-btn" id="claimRewardBtn">Claim from RewardDistributor</button><button class="soft-btn" id="connectXBtn"><img class="icon" src="assets/icons/x.svg" alt="" />Connect X • Claim 250 points</button></div></section><section class="card side-card"><h3>Badges</h3><div class="badges"><div class="badge-card"><strong>Bronze</strong><div class="small">0–1k</div></div><div class="badge-card"><strong>Silver</strong><div class="small">1k–5k</div></div><div class="badge-card"><strong>Gold</strong><div class="small">5k–20k</div></div><div class="badge-card"><strong>Diamond</strong><div class="small">20k–100k</div></div><div class="badge-card"><strong>Mythic</strong><div class="small">100k+</div></div><div class="badge-card"><strong>Early</strong><div class="small">Testnet</div></div></div><div class="footer-note">Badge progression and local points are front-end only in this build. On-chain claim uses your live RewardDistributor contract.</div></section></section><section class="card side-card"><h3>Profile & referral</h3><div class="grid-two"><div class="field"><label>Username</label><input id="profileUsername" maxlength="24" placeholder="username" /></div><div class="field"><label>X handle</label><input id="profileX" maxlength="24" placeholder="@yourhandle" /></div></div><div class="grid-two" style="margin-top:14px"><div class="field"><label>Referral link</label><input id="refLink" readonly /></div><div class="field"><label>Share to X</label><button class="soft-btn" id="shareReferralBtn"><img class="icon" src="assets/icons/share.svg" alt="" />Share on X</button></div></div></section></section></main></div>
+<div class="modal-backdrop" id="createModal"><div class="modal">
+<div class="modal-head"><h3>Create Battle</h3><button class="soft-btn" data-close-modal="createModal">Close</button></div>
+<div class="form-grid">
+<div class="stack">
+<div class="field"><label>Battle title</label><input id="battleTitle" maxlength="80" placeholder="Who defined platform gaming better?" /></div>
+<div class="field"><label>Description</label><textarea id="battleDescription" maxlength="300" placeholder="Keep it short and clear."></textarea></div>
+<div class="field"><label>Category</label><select id="battleCategory"><option>Games</option><option>Crypto</option><option>Tech</option><option>Movies</option><option>Food</option><option>Design</option><option>Sports</option><option>Trends</option></select></div>
+<div class="field"><label>Duration</label><div class="duration-chips" id="durationChips"></div><div class="helper">Selected duration is written on-chain. Current deployed battle contract does not charge a creation fee.</div></div>
+</div>
+<div class="stack">
+<div class="grid-two"><div class="field"><label>Option A label</label><input id="labelA" maxlength="22" placeholder="Mario World" /></div><div class="field"><label>Option B label</label><input id="labelB" maxlength="22" placeholder="Sonic the Hedgehog" /></div></div>
+<div class="grid-two"><div class="field"><label>Image 1 (blue)</label><div class="dropzone blue" id="dropA"><div><img class="icon" src="assets/icons/image.svg" alt="" /><div>Drop or upload JPG, PNG or WEBP</div><div class="helper">Max 2MB • auto convert WEBP 75% • 800px</div></div><input class="hidden" type="file" accept="image/png,image/jpeg,image/webp" id="fileA" /></div></div>
+<div class="field"><label>Image 2 (red)</label><div class="dropzone red" id="dropB"><div><img class="icon" src="assets/icons/image.svg" alt="" /><div>Drop or upload JPG, PNG or WEBP</div><div class="helper">Max 2MB • auto convert WEBP 75% • 800px</div></div><input class="hidden" type="file" accept="image/png,image/jpeg,image/webp" id="fileB" /></div></div></div>
+<div class="helper" id="imageError"></div>
+</div></div>
+<div class="preview-card" id="battlePreview"></div>
+<div class="modal-head" style="margin-top:14px"><div class="helper">Metadata is stored locally in this test build because the deployed battle contract only stores duration and pool values on-chain.</div><button class="primary-btn" id="submitBattleBtn">Create on chain</button></div>
+</div></div>
 
-
-<section class="page">
-<h2>Points</h2>
-<div class="verify">Verify & Earn</div>
-<p>Ranking, rewards, seasons</p>
-</section>
-
-
-<script src="app.js"></script>
-</body>
-</html>
+<div class="modal-backdrop" id="voteModal"><div class="modal modal-sm">
+<div class="modal-head"><h3>Confirm Vote</h3><button class="soft-btn" data-close-modal="voteModal">Close</button></div>
+<div id="voteModalBody"></div>
+<div class="modal-head" style="margin-top:16px"><div class="helper">Default UI uses 1, 5 or 10 USDC quick actions. The deployed contract accepts any USDC amount.</div><button class="primary-btn" id="confirmVoteBtn">Confirm Vote</button></div>
+</div></div>
+<nav class="bottom-nav"><a href="index.html">Home</a><a href="results.html">Results</a><a href="market.html">Market</a><a href="points.html">Points</a><a href="how-it-works.html">How</a></nav></body></html>
