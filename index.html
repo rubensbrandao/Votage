@@ -9,7 +9,7 @@
 body {
   margin:0;
   font-family: Arial;
-  background:#0f0f0f;
+  background: linear-gradient(180deg, #0f0f0f, #0a0a0a);
   color:white;
 }
 
@@ -25,6 +25,7 @@ header {
 .logo {
   font-size:22px;
   font-weight:bold;
+  letter-spacing:1px;
 }
 
 .user {
@@ -43,7 +44,6 @@ header {
   display:flex;
   gap:10px;
   padding:15px 30px;
-  border-bottom:1px solid #222;
 }
 
 .category {
@@ -52,14 +52,18 @@ header {
   border-radius:20px;
   font-size:13px;
   cursor:pointer;
+  transition:0.2s;
 }
 
-/* HOT BAR */
+.category:hover {
+  background:#222;
+}
+
+/* HOT */
 .hot-bar {
   display:flex;
   gap:10px;
-  padding:15px 30px;
-  overflow-x:auto;
+  padding:10px 30px;
 }
 
 .hot-item {
@@ -67,7 +71,6 @@ header {
   padding:10px 15px;
   border-radius:20px;
   font-size:13px;
-  white-space:nowrap;
 }
 
 /* MAIN */
@@ -78,17 +81,13 @@ header {
   padding:20px 30px;
 }
 
-/* FEED */
-.feed {
-  max-width:700px;
-}
-
 /* CARD */
 .card {
-  background:#1a1a1a;
-  border-radius:12px;
+  background:#161616;
+  border-radius:14px;
   padding:20px;
   margin-bottom:20px;
+  box-shadow:0 0 10px rgba(0,0,0,0.4);
 }
 
 .creator {
@@ -113,7 +112,7 @@ header {
   margin-bottom:15px;
 }
 
-/* IMAGES */
+/* OPTIONS */
 .images {
   display:flex;
   gap:10px;
@@ -121,16 +120,22 @@ header {
 
 .option {
   flex:1;
-  border-radius:10px;
+  border-radius:12px;
   overflow:hidden;
   cursor:pointer;
   position:relative;
+  transition:0.2s;
+}
+
+.option:hover {
+  transform:scale(1.02);
 }
 
 .option img {
   width:100%;
   height:150px;
   object-fit:cover;
+  filter:brightness(0.8);
 }
 
 .option span {
@@ -143,26 +148,51 @@ header {
 .optionA { border:2px solid #3498db; }
 .optionB { border:2px solid #f1c40f; }
 
+/* % TEXT */
+.percent {
+  display:flex;
+  justify-content:space-between;
+  margin-top:8px;
+  font-size:13px;
+}
+
 /* BAR */
 .bar {
-  margin-top:10px;
+  margin-top:5px;
   height:8px;
   background:#333;
   border-radius:10px;
+  overflow:hidden;
 }
 
 .fill {
   height:100%;
   width:65%;
-  background:#3498db;
+  background:linear-gradient(90deg,#3498db,#6dd5fa);
+  transition:0.4s;
 }
 
-/* COMMENTS */
-.comments {
+/* ACTIONS */
+.actions {
+  display:flex;
+  justify-content:space-between;
   margin-top:10px;
+}
+
+.left-actions {
+  display:flex;
+  gap:15px;
+}
+
+.action {
+  cursor:pointer;
   font-size:14px;
   color:#aaa;
-  cursor:pointer;
+  transition:0.2s;
+}
+
+.action:hover {
+  color:white;
 }
 
 /* SIDEBAR */
@@ -177,22 +207,16 @@ header {
 
 .section h4 {
   color:#aaa;
-  margin-bottom:10px;
 }
 
 .item {
   margin-bottom:8px;
-  font-size:14px;
 }
 
 /* MOBILE */
 @media(max-width:900px){
-  .main {
-    grid-template-columns: 1fr;
-  }
-  .sidebar {
-    display:none;
-  }
+  .main { grid-template-columns:1fr; }
+  .sidebar { display:none; }
 }
 </style>
 
@@ -209,7 +233,6 @@ header {
   </div>
 </header>
 
-<!-- CATEGORIES -->
 <div class="categories">
   <div class="category">All</div>
   <div class="category">Crypto</div>
@@ -217,18 +240,14 @@ header {
   <div class="category">Games</div>
 </div>
 
-<!-- HOT -->
 <div class="hot-bar">
   <div class="hot-item">🔥 BTC vs ETH</div>
   <div class="hot-item">🔥 Messi vs Ronaldo</div>
-  <div class="hot-item">🔥 Apple vs Android</div>
 </div>
 
-<!-- MAIN -->
 <div class="main">
 
-  <!-- FEED -->
-  <div class="feed">
+  <div>
 
     <div class="card">
 
@@ -246,6 +265,7 @@ header {
       </div>
 
       <div class="images">
+
         <div class="option optionA">
           <img src="https://upload.wikimedia.org/wikipedia/en/5/5f/Sonic_the_Hedgehog.png">
           <span>Sonic</span>
@@ -255,19 +275,31 @@ header {
           <img src="https://upload.wikimedia.org/wikipedia/en/a/a9/MarioNSMBUDeluxe.png">
           <span>Mario</span>
         </div>
+
+      </div>
+
+      <div class="percent">
+        <span>65%</span>
+        <span>35%</span>
       </div>
 
       <div class="bar">
         <div class="fill"></div>
       </div>
 
-      <div class="comments">💬 24 comments</div>
+      <div class="actions">
+        <div class="left-actions">
+          <div class="action">❤️ 120</div>
+          <div class="action">💬 24</div>
+        </div>
+
+        <div class="action">🔗 Share</div>
+      </div>
 
     </div>
 
   </div>
 
-  <!-- SIDEBAR -->
   <div class="sidebar">
 
     <div class="section">
