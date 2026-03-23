@@ -30,7 +30,7 @@ img {
   display: block;
 }
 
-/* ✅ FIX GLOBAL ICONS */
+/* ===== FIX ICONS ===== */
 .icon {
   width: 16px;
   height: 16px;
@@ -38,14 +38,13 @@ img {
   object-fit: contain;
 }
 
-/* ✅ FIX ICON BUTTONS */
 .iconbtn {
-  background: none;
-  border: none;
-  padding: 0;
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  background: transparent;
+  border: none;
+  padding: 0;
   cursor: pointer;
 }
 
@@ -53,10 +52,10 @@ img {
   width: 16px;
   height: 16px;
   object-fit: contain;
-  background: transparent;
   display: inline-block;
 }
 
+/* ===== BASE ===== */
 button,
 input,
 textarea,
@@ -150,6 +149,7 @@ select {
   object-fit: cover;
 }
 
+/* ===== LAYOUT ===== */
 .card {
   background: #fff;
   border: 1px solid var(--line);
@@ -172,19 +172,15 @@ select {
 
 .hero h1 {
   font-size: 54px;
-  line-height: 1.02;
   margin: 8px 0;
 }
 
 .hero p {
   color: var(--muted);
-  line-height: 1.7;
 }
 
 .hero img {
-  height: 100%;
   width: 100%;
-  object-fit: cover;
   border-radius: 18px;
   border: 1px solid var(--line);
 }
@@ -212,6 +208,7 @@ select {
   width: 100%;
 }
 
+/* ===== CHIPS ===== */
 .chips {
   display: flex;
   flex-wrap: wrap;
@@ -224,11 +221,12 @@ select {
   padding: 0 14px;
   border-radius: 999px;
   border: 1px solid var(--line);
-  background: #fff;
+  background: #f8fafc;
   font-weight: 700;
   display: inline-flex;
   align-items: center;
   cursor: pointer;
+  transition: 0.2s;
 }
 
 .chip.active,
@@ -237,6 +235,12 @@ select {
   border-color: var(--blue);
 }
 
+.chip:hover,
+.catbtn:hover {
+  border-color: var(--blue);
+}
+
+/* ===== FEED ===== */
 .feed {
   display: flex;
   flex-direction: column;
@@ -247,161 +251,90 @@ select {
   padding: 18px;
 }
 
-.head {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.user {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-
-.user img {
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  border: 1px solid var(--line);
-}
-
-.badge {
-  height: 28px;
-  padding: 0 12px;
-  border: 1px solid currentColor;
-  border-radius: 999px;
-  font-size: 12px;
-  font-weight: 900;
-  display: inline-flex;
-  align-items: center;
-}
-
-.live {
-  color: var(--green);
-}
-
-.ended {
-  color: #9ca3af;
-}
-
-.battle h2 {
-  margin: 14px 0 10px;
-  font-size: 28px;
-}
-
-.battle p {
-  margin: 0;
-  color: #475569;
-  line-height: 1.7;
-}
-
-.grid2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-  margin-top: 16px;
-}
-
-.opt h4 {
-  text-align: center;
-  margin: 0 0 8px;
-}
-
-.media {
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  overflow: hidden;
-  background: #f1f4f8;
-}
-
-.media img {
-  width: 100%;
-  aspect-ratio: 1.6 / 1;
-  object-fit: cover;
-}
-
+/* ===== VOTE ===== */
 .votea,
 .voteb {
   height: 60px;
-  border: none;
   border-radius: 16px;
   color: #fff;
   font-weight: 900;
   padding: 0 26px;
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  cursor: pointer;
-  width: 100%;
 }
 
 .votea {
-  background: linear-gradient(180deg, var(--blue), var(--blue2));
+  background: linear-gradient(var(--blue), var(--blue2));
 }
 
 .voteb {
-  background: linear-gradient(180deg, var(--red), var(--red2));
+  background: linear-gradient(var(--red), var(--red2));
 }
 
-.pct {
-  font-size: 38px;
+/* ===== FORM ===== */
+.field {
+  display: grid;
+  gap: 8px;
 }
 
-.lbl {
-  font-size: 22px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 65%;
+.field label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #475569;
 }
 
-.time {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 14px;
-  font-weight: 800;
+.field input,
+.field textarea {
+  background: #fff;
+  border: 1px solid #dfe5ec;
+  border-radius: 18px;
+  padding: 12px 16px;
 }
 
-.bar {
-  flex: 1;
-  height: 8px;
-  background: #e5e7eb;
-  border-radius: 999px;
-  overflow: hidden;
+.field textarea {
+  height: 90px;
 }
 
-.fill {
-  height: 100%;
-  background: var(--blue);
+/* ===== UPLOAD ===== */
+.upload {
+  border: 1px dashed #dbe2ea;
+  border-radius: 20px;
+  padding: 16px;
+  background: #fafcff;
 }
 
-/* ✅ FIX MODAL */
+.drop {
+  min-height: 160px;
+  border-radius: 16px;
+  border: 1px solid #e3e8ef;
+  background: #f4f7fb;
+  display: grid;
+  place-items: center;
+  color: #64748b;
+}
+
+/* ===== MODAL ===== */
 .modalbg {
   position: fixed;
   inset: 0;
   background: rgba(15, 23, 42, 0.45);
-
-  display: none !important; /* 🔥 força fechado */
-
+  display: none !important;
   align-items: center;
   justify-content: center;
   padding: 16px;
-  z-index: 1000;
+  z-index: 9999;
 }
 
 .modalbg.open {
-  display: flex !important; /* 🔥 só abre quando JS manda */
+  display: flex !important;
 }
+
 .modal {
   width: min(600px, 100%);
-  max-height: calc(100vh - 32px);
-  overflow: auto;
   background: #fff;
-  border: 1px solid var(--line);
   border-radius: 28px;
   padding: 18px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.08);
 }
 
 .row {
