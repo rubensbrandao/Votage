@@ -1,173 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Votage</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Votage</title>
 
-  <link rel="icon" href="assets/images/logo.webp">
-  <link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="styles.css">
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.umd.min.js"></script>
 
-  <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.umd.min.js"></script>
-  <script src="js/config.js"></script>
-  <script defer src="js/app.js"></script>
 </head>
 
 <body>
 
-<div class="app">
+<header class="topbar">
+  <div class="logo">VOTAGE</div>
+  <button id="connectBtn">Connect Wallet</button>
+</header>
 
-  <!-- HEADER -->
-  <header class="topbar">
+<section class="hero">
+  <h1>The users power the system.</h1>
+  <p>Vote → Generate Value → Distribute → Burn</p>
+  <button class="cta">Start Battle</button>
+</section>
 
-    <a class="brand" href="index.html">
-      <img src="assets/images/logo.webp">
-    </a>
+<section class="battles">
+  <h2>Active Battles</h2>
 
-    <nav class="nav">
-      <button class="primary" id="openCreateBtn">
-        <img class="icon" src="assets/icons/plus.svg">
-        Start Battle
-      </button>
+  <div class="battle-card">
+    <div class="option">BTC</div>
+    <div class="vs">VS</div>
+    <div class="option">ETH</div>
 
-      <a href="results.html">Results</a>
-      <a href="market.html">Market</a>
-      <a href="points.html">Points</a>
-      <a href="how-it-works.html">How it works</a>
-    </nav>
-
-    <div class="wallet">
-      <div class="profile-mini">
-        <img id="topAvatar" src="assets/images/avatar.webp">
-        <div id="topUsername">Guest</div>
-      </div>
-
-      <div id="walletText" class="mini">Not connected</div>
-
-      <!-- BOTÃO ÚNICO -->
-      <button class="btn connect" id="walletBtn">
-        <img class="icon" src="assets/icons/wallet.svg">
-        Connect
-      </button>
-    </div>
-
-  </header>
-
-  <!-- MAIN -->
-  <main class="stack">
-
-    <!-- HERO -->
-    <section class="card hero">
-      <div>
-        <div class="mini" style="color:var(--blue);font-weight:800;text-transform:uppercase">
-          Vote to Advantage
-        </div>
-
-        <h1>Vote. Prove your conviction.</h1>
-
-        <p>
-          A social voting arena where opinions have weight, battles move with value,
-          and rewards are tied to real participation.
-        </p>
-
-        <div style="display:flex;gap:12px;margin-top:18px">
-          <button class="btn primary" id="heroCreateBtn">Start Battle</button>
-          <a class="btn soft" href="points.html">Verify & Earn</a>
-        </div>
-      </div>
-
-      <div>
-        <img src="assets/images/hero.webp">
-      </div>
-    </section>
-
-    <!-- SEARCH + CATEGORIES -->
-    <section class="card toolbar">
-      <div class="search">
-        <img class="icon" src="assets/icons/search.svg">
-        <input id="searchInput" placeholder="Search...">
-      </div>
-
-      <div class="chips" id="chips"></div>
-    </section>
-
-    <!-- FEED -->
-    <section class="feed" id="feed"></section>
-
-  </main>
-</div>
-
-<!-- ========================= -->
-<!-- MODAL CREATE -->
-<!-- ========================= -->
-
-<div id="createModal">
-
-  <div class="modal-content">
-
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <h3>Create Battle</h3>
-      <button onclick="closeCreate()">Close</button>
-    </div>
-
-    <input id="title" placeholder="Battle title">
-
-    <textarea id="desc" placeholder="Description"></textarea>
-
-    <div class="chips" id="createCats"></div>
-
-    <!-- IMAGE A -->
-    <div>
-      <input id="labelA" placeholder="Competitor A">
-      <input type="file" id="fileA">
-    </div>
-
-    <!-- IMAGE B -->
-    <div>
-      <input id="labelB" placeholder="Competitor B">
-      <input type="file" id="fileB">
-    </div>
-
-    <!-- SLIDER -->
-    <div>
-      <div id="daysLabel">1 day</div>
-      <input type="range" id="days" min="1" max="7" value="1">
-      <div id="daysCost">$1</div>
-    </div>
-
-    <button id="createBtn">Create</button>
-
+    <button class="vote">Vote</button>
   </div>
-</div>
 
-<!-- ========================= -->
-<!-- MODAL VOTE -->
-<!-- ========================= -->
+</section>
 
-<div id="voteModal">
-  <div class="modal-content">
+<section class="stats">
+  <div>Total Volume: <span id="volume">0</span></div>
+  <div>Total Votes: <span id="votes">0</span></div>
+  <div>Burned: <span id="burn">0</span></div>
+</section>
 
-    <div style="display:flex;justify-content:space-between">
-      <h3>Confirm Vote</h3>
-      <button onclick="closeVote()">Close</button>
-    </div>
+<section class="leaderboard">
+  <h2>Top Users</h2>
+  <div id="leaderboardList"></div>
+</section>
 
-    <div id="voteBody"></div>
-
-    <button id="voteBtn">Confirm Vote</button>
-
-  </div>
-</div>
-
-<!-- MOBILE NAV -->
-<nav class="bottom">
-  <a href="index.html">Home</a>
-  <a href="results.html">Results</a>
-  <a href="market.html">Market</a>
-  <a href="points.html">Points</a>
-</nav>
-
-<button id="scrollTop">Top</button>
+<script src="app.js"></script>
 
 </body>
 </html>
