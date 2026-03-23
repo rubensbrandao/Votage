@@ -406,12 +406,10 @@ input[type="range"]:hover::-webkit-slider-thumb {
 input[type="range"]:focus {
   outline: none;
 }
-/* ===== MODAL REAL (FIX FINAL) ===== */
-
-#createModal {
+.modalbg {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.45);
+  background: rgba(15,23,42,.45);
 
   display: none;
   align-items: center;
@@ -420,11 +418,11 @@ input[type="range"]:focus {
   z-index: 9999;
 }
 
-#createModal.active {
+.modalbg.open {
   display: flex;
 }
 
-#createModal .modal-content {
+.modal {
   width: 100%;
   max-width: 560px;
   max-height: 90vh;
@@ -433,8 +431,6 @@ input[type="range"]:focus {
 
   background: #fff;
   border-radius: 20px;
-  border: 1px solid var(--line);
-
   padding: 20px;
 
   display: flex;
