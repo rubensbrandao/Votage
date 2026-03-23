@@ -382,7 +382,9 @@ select {
   position: fixed;
   inset: 0;
   background: rgba(15, 23, 42, 0.45);
-  display: none;
+
+  display: none !important; /* 🔥 força fechado */
+
   align-items: center;
   justify-content: center;
   padding: 16px;
@@ -390,9 +392,8 @@ select {
 }
 
 .modalbg.open {
-  display: flex;
+  display: flex !important; /* 🔥 só abre quando JS manda */
 }
-
 .modal {
   width: min(600px, 100%);
   max-height: calc(100vh - 32px);
