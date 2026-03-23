@@ -17,7 +17,7 @@ body {
 }
 
 .hero h1 {
-  font-size: 48px;
+  font-size: 42px;
 }
 
 .cta {
@@ -26,6 +26,7 @@ body {
   background: linear-gradient(90deg, #344566, #8b8e95);
   border: none;
   border-radius: 8px;
+  color: white;
 }
 
 .battles {
@@ -34,7 +35,6 @@ body {
 
 .battle-card {
   display: flex;
-  align-items: center;
   justify-content: space-between;
   background: #111827;
   padding: 20px;
@@ -46,6 +46,7 @@ body {
   background: linear-gradient(90deg, #344566, #8b8e95);
   border: none;
   padding: 10px 20px;
+  color: white;
 }
 
 .stats {
