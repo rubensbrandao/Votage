@@ -1,70 +1,24 @@
-<!-- MODAL CREATE (CORRETO) -->
-<div class="modalbg" id="createModal">
-  <div class="modal">
+const leaderboard = [
+  { wallet: "0xA1...91", points: 1200 },
+  { wallet: "0xF3...22", points: 980 },
+  { wallet: "0x9B...77", points: 870 },
+];
 
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <h3>Create Battle</h3>
-      <button class="btn soft" data-close="createModal">Close</button>
-    </div>
+function renderLeaderboard() {
+  const container = document.getElementById("leaderboardList");
+  container.innerHTML = "";
 
-    <div id="createSuccess" class="success">
-      <strong>Battle created on-chain.</strong>
-      <div>Your battle is now live in the feed.</div>
-      <button class="btn primary" data-close="createModal">Close</button>
-    </div>
+  leaderboard.forEach((user, i) => {
+    const div = document.createElement("div");
 
-    <div id="createForm">
+    div.innerHTML = `
+      <strong>#${i + 1}</strong>
+      ${user.wallet}
+      <span>${user.points} pts</span>
+    `;
 
-      <div class="field">
-        <label>Battle title</label>
-        <input id="title" placeholder="Which is better?">
-      </div>
+    container.appendChild(div);
+  });
+}
 
-      <div class="field">
-        <label>Description</label>
-        <textarea id="desc"></textarea>
-      </div>
-
-      <div class="field">
-        <label>Categories</label>
-        <div class="chips" id="createCats"></div>
-      </div>
-
-      <!-- COMPETITOR A -->
-      <div class="upload">
-        <input id="labelA" placeholder="Competitor A">
-        <div class="drop" id="dropA">
-          Upload image A
-          <input type="file" id="fileA" class="hidden">
-        </div>
-      </div>
-
-      <!-- COMPETITOR B -->
-      <div class="upload">
-        <input id="labelB" placeholder="Competitor B">
-        <div class="drop" id="dropB">
-          Upload image B
-          <input type="file" id="fileB" class="hidden">
-        </div>
-      </div>
-
-      <!-- SLIDER -->
-      <div class="field">
-        <div style="display:flex;justify-content:space-between">
-          <span id="daysLabel">1 day</span>
-          <span id="daysCost">$1</span>
-        </div>
-
-        <input type="range" id="days" min="1" max="7" value="1">
-      </div>
-
-      <div class="center">
-        <button class="btn primary" id="createBtn">
-          Create on-chain
-        </button>
-      </div>
-
-    </div>
-
-  </div>
-</div>
+renderLeaderboard();
