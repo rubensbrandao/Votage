@@ -406,3 +406,38 @@ input[type="range"]:hover::-webkit-slider-thumb {
 input[type="range"]:focus {
   outline: none;
 }
+/* ===== MODAL REAL (FIX FINAL) ===== */
+
+#createModal {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 9999;
+}
+
+#createModal.active {
+  display: flex;
+}
+
+#createModal .modal-content {
+  width: 100%;
+  max-width: 560px;
+  max-height: 90vh;
+
+  overflow-y: auto;
+
+  background: #fff;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+
+  padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
