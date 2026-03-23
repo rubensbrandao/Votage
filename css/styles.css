@@ -354,3 +354,10 @@ button, input, textarea, select {
   height: 100%;
   background: var(--blue);
 }
+.iconbtn img {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  background: transparent;
+  display: inline-block;
+}
