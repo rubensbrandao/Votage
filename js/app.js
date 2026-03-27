@@ -1,3 +1,4 @@
+
 (()=>{
   const { ethers } = window;
   const CFG = window.APP_CONFIG;
@@ -11,12 +12,15 @@
     streak: 'v_streak',
     profile: 'v_profile',
     archive: 'v_archive',
-    unlocked: 'v_unlocked'
+    unlocked: 'v_unlocked',
+    hiddenBattles: 'v_hidden_battles',
+    walletDisconnected: 'v_wallet_disconnected'
   };
 
   let captchaToken = null;
   let captchaWidgetId = null;
   let captchaRendered = false;
+  let ethListenersBound = false;
 
   let s = {
     provider: null,
@@ -34,7 +38,14 @@
     days: 1,
     cats: ['Crypto'],
     imgs: { a: null, b: null },
-    vote: null
+    vote: null,
+    marketPrice: 0,
+    marketData: {
+      walletUsdc: 0,
+      walletWin: 0,
+      reserveUsdc: 0,
+      reserveWin: 0
+    }
   };
 
   const $ = (x, r = document) => r.querySelector(x);
@@ -45,10 +56,10 @@
     style: 'currency',
     currency: 'USD',
     maximumFractionDigits: 4
-  }).format(n || 0);
+  }).format(Number.isFinite(n) ? n : 0);
   const fmtNum = n => new Intl.NumberFormat('en-US', {
     maximumFractionDigits: 4
-  }).format(n || 0);
+  }).format(Number.isFinite(n) ? n : 0);
 
   const get = (k, f) => {
     try {
@@ -81,58 +92,109 @@
     });
   }
 
+  async function ensureProvider() {
+    if (!window.ethereum) return null;
+    if (!s.provider) s.provider = new ethers.BrowserProvider(window.ethereum);
+    if (!ethListenersBound) bindEthereumListeners();
+    return s.provider;
+  }
+
+  function initContracts(runner) {
+    if (!runner) return;
+    s.bm = new ethers.Contract(CFG.contracts.battleManager, ABIS.battle, runner);
+    s.win = new ethers.Contract(CFG.contracts.win, ABIS.erc20, runner);
+    s.usdc = new ethers.Contract(CFG.contracts.usdc, ABIS.erc20, runner);
+    s.rd = new ethers.Contract(CFG.contracts.rewardDistributor, ABIS.rewardDistributor, runner);
+    s.pool = new ethers.Contract(CFG.contracts.pool, ABIS.pool, runner);
+  }
+
+  function bindEthereumListeners() {
+    if (!window.ethereum || ethListenersBound) return;
+    window.ethereum.on?.('accountsChanged', async accounts => {
+      if (accounts && accounts.length) {
+        const provider = await ensureProvider();
+        s.signer = await provider.getSigner();
+        s.address = accounts[0];
+        initContracts(s.signer);
+        localStorage.setItem(LS.walletDisconnected, '0');
+      } else {
+        s.signer = null;
+        s.address = null;
+        const provider = await ensureProvider();
+        if (provider) initContracts(provider);
+      }
+      top();
+      await refreshUi();
+    });
+
+    window.ethereum.on?.('chainChanged', () => {
+      window.location.reload();
+    });
+
+    ethListenersBound = true;
+  }
+
+  async function signConnectMessage() {
+    if (!s.signer) return false;
+    try {
+      await s.signer.signMessage('Sign to verify your account on Votage');
+      return true;
+    } catch (e) {
+      console.error(e);
+      alert('Signature request was cancelled.');
+      return false;
+    }
+  }
+
   async function connect(requestAccess = true) {
-    if (!window.ethereum) {
+    const provider = await ensureProvider();
+    if (!provider) {
       alert('MetaMask is required.');
       return false;
     }
 
-    if (!s.provider) s.provider = new ethers.BrowserProvider(window.ethereum);
-
     let accounts = [];
-
     try {
       accounts = requestAccess
-        ? await s.provider.send('eth_requestAccounts', [])
-        : await s.provider.send('eth_accounts', []);
+        ? await provider.send('eth_requestAccounts', [])
+        : await provider.send('eth_accounts', []);
     } catch (e) {
       console.error(e);
       return false;
     }
 
     if (!accounts || !accounts.length) {
+      s.signer = null;
+      s.address = null;
+      initContracts(provider);
       top();
+      await refreshUi();
       return false;
     }
 
-    s.signer = await s.provider.getSigner();
+    s.signer = await provider.getSigner();
     s.address = accounts[0];
+    initContracts(s.signer);
 
-    s.bm = new ethers.Contract(CFG.contracts.battleManager, ABIS.battle, s.signer);
-    s.win = new ethers.Contract(CFG.contracts.win, ABIS.erc20, s.signer);
-    s.usdc = new ethers.Contract(CFG.contracts.usdc, ABIS.erc20, s.signer);
-    s.rd = new ethers.Contract(CFG.contracts.rewardDistributor, ABIS.rewardDistributor, s.signer);
-    s.pool = new ethers.Contract(CFG.contracts.pool, ABIS.pool, s.signer);
+    if (requestAccess) {
+      const signed = await signConnectMessage();
+      if (!signed) return false;
+      localStorage.setItem(LS.walletDisconnected, '0');
+    }
 
     top();
-    await loadBattles();
-    render('feed', false);
-    render('resultsFeed', true);
-    await market();
-    await points();
+    await refreshUi();
     return true;
   }
 
-  function disconnect() {
-    s.provider = null;
+  async function disconnect() {
+    localStorage.setItem(LS.walletDisconnected, '1');
     s.signer = null;
     s.address = null;
-    s.bm = null;
-    s.win = null;
-    s.usdc = null;
-    s.rd = null;
-    s.pool = null;
+    const provider = await ensureProvider();
+    if (provider) initContracts(provider);
     top();
+    await refreshUi();
   }
 
   function top() {
@@ -143,11 +205,10 @@
     if (s.address) {
       $('#walletText') && ($('#walletText').textContent = fmtAddr(s.address));
       $('#connectBtn') && (
-        $('#connectBtn').innerHTML = '<img class="icon" src="assets/icons/wallet.svg" alt=""/>Connected',
-        $('#connectBtn').disabled = true,
-        $('#connectBtn').classList.add('disabled-btn')
+        $('#connectBtn').innerHTML = '<img class="icon" src="assets/icons/wallet.svg" alt=""/>Disconnect',
+        $('#connectBtn').disabled = false,
+        $('#connectBtn').classList.remove('disabled-btn')
       );
-      $('#disconnectBtn') && $('#disconnectBtn').classList.remove('hidden');
     } else {
       $('#walletText') && ($('#walletText').textContent = 'Not connected');
       $('#connectBtn') && (
@@ -155,8 +216,8 @@
         $('#connectBtn').disabled = false,
         $('#connectBtn').classList.remove('disabled-btn')
       );
-      $('#disconnectBtn') && $('#disconnectBtn').classList.add('hidden');
     }
+    $('#disconnectBtn') && $('#disconnectBtn').classList.add('hidden');
   }
 
   async function loadBadges() {
@@ -172,9 +233,11 @@
     const n = Number(await s.bm.battleCount());
     const m = get(LS.meta, {});
     const likes = get(LS.likes, {});
+    const hidden = get(LS.hiddenBattles, {});
     s.battles = [];
 
     for (let i = 1; i <= n; i++) {
+      if (hidden[i]) continue;
       try {
         const r = await s.bm.battles(i);
         s.battles.push({
@@ -191,8 +254,8 @@
           cats: (m[i] || {}).cats || ['General'],
           la: (m[i] || {}).la || 'Option A',
           lb: (m[i] || {}).lb || 'Option B',
-          ia: (m[i] || {}).ia || 'assets/images/hero.webp',
-          ib: (m[i] || {}).ib || 'assets/images/how-1.webp',
+          ia: (m[i] || {}).ia || '',
+          ib: (m[i] || {}).ib || '',
           likes: likes[i] || 0
         });
       } catch (e) {
@@ -249,6 +312,16 @@
     return x.sort((a, b) => score(b) - score(a));
   }
 
+  function canHideBattle(b) {
+    return !!(s.address && b.creator && b.creator.toLowerCase() === s.address.toLowerCase());
+  }
+
+  function mediaHtml(src) {
+    return src
+      ? `<div class="media"><img src="${src}" alt=""></div>`
+      : `<div class="media empty-media">No image</div>`;
+  }
+
   function card(b) {
     const t = b.a + b.b;
     const pA = t ? Math.round((b.a / t) * 100) : 50;
@@ -263,7 +336,7 @@
       <article class="battle card">
         <div class="head">
           <div class="user">
-            <img src="${p.avatar || 'assets/images/avatar.webp'}">
+            <img src="${p.avatar || 'assets/images/avatar.webp'}" alt="">
             <div>
               <strong>${esc(p.username || fmtAddr(b.creator))}</strong>
               <div class="mini">${esc(b.cats.join(' • '))}</div>
@@ -278,7 +351,7 @@
         <div class="grid2">
           <div class="opt">
             <h4>${esc(b.la)}</h4>
-            <div class="media"><img src="${b.ia}"></div>
+            ${mediaHtml(b.ia)}
             <button class="votea ${ended && winnerA ? 'winner-a' : ''}" data-vote="${b.id}" data-side="1">
               <span class="lbl">${esc(b.la)}</span>
               <span class="pct">${pA}%</span>
@@ -287,7 +360,7 @@
 
           <div class="opt">
             <h4>${esc(b.lb)}</h4>
-            <div class="media"><img src="${b.ib}"></div>
+            ${mediaHtml(b.ib)}
             <button class="voteb ${ended && winnerB ? 'winner-b' : ''}" data-vote="${b.id}" data-side="2">
               <span class="pct">${pB}%</span>
               <span class="lbl">${esc(b.lb)}</span>
@@ -296,7 +369,7 @@
         </div>
 
         <div class="time">
-          <img class="icon" src="assets/icons/clock.svg">
+          <img class="icon" src="assets/icons/clock.svg" alt="">
           <div class="bar">
             <div class="fill" style="width:${prog(b.start, b.end)}%;background:${fill}"></div>
           </div>
@@ -305,10 +378,11 @@
 
         <div class="meta">
           <div class="acts">
-            <button class="iconbtn" data-like="${b.id}"><img src="assets/icons/heart.svg">${b.likes}</button>
-            <button class="iconbtn"><img src="assets/icons/comment.svg">0</button>
-            <button class="iconbtn" data-share="${b.id}"><img src="assets/icons/share.svg">Share on X</button>
-            <button class="iconbtn" data-copy="${b.id}"><img src="assets/icons/copy.svg">Copy link</button>
+            <button class="iconbtn" data-like="${b.id}"><img src="assets/icons/heart.svg" alt="">${b.likes}</button>
+            <button class="iconbtn"><img src="assets/icons/comment.svg" alt="">0</button>
+            <button class="iconbtn" data-share="${b.id}"><img src="assets/icons/share.svg" alt="">Share on X</button>
+            <button class="iconbtn" data-copy="${b.id}"><img src="assets/icons/copy.svg" alt="">Copy link</button>
+            ${canHideBattle(b) ? `<button class="iconbtn delete-battle" data-delete="${b.id}"><img src="assets/icons/trash.svg" alt="">Hide test battle</button>` : ''}
           </div>
           <div class="acts">
             <span>${fmtUSD(t / 1e6)} at stake</span>
@@ -327,6 +401,15 @@
       ? list.map(card).join('')
       : '<section class="card" style="padding:24px;text-align:center;color:var(--muted)">No battles found.</section>';
     bindCards();
+  }
+
+  function hideBattle(id) {
+    const hidden = get(LS.hiddenBattles, {});
+    hidden[id] = true;
+    set(LS.hiddenBattles, hidden);
+    loadBattles().then(() => {
+      render(document.body.dataset.page === 'results' ? 'resultsFeed' : 'feed', document.body.dataset.page === 'results');
+    });
   }
 
   function bindCards() {
@@ -350,17 +433,22 @@
       );
     });
 
+    $$('[data-delete]').forEach(b => b.onclick = () => {
+      const ok = window.confirm('Hide this test battle from your feed?');
+      if (ok) hideBattle(b.dataset.delete);
+    });
+
     $$('[data-vote]').forEach(b => b.onclick = async () => {
       if (!await connect(true)) return;
       const battle = s.battles.find(x => x.id === Number(b.dataset.vote));
       const side = Number(b.dataset.side);
       s.vote = { battle, side };
-      const price = Number(await s.pool.getPrice()) / 1e6;
+      const price = s.pool ? Number(await s.pool.getPrice()) / 1e6 : 0;
       const label = side === 1 ? battle.la : battle.lb;
       const img = side === 1 ? battle.ia : battle.ib;
 
       $('#voteBody').innerHTML = `
-        <div class="media"><img src="${img}"></div>
+        ${img ? `<div class="media"><img src="${img}" alt=""></div>` : '<div class="media empty-media">No image</div>'}
         <div>
           <strong style="font-size:22px">${esc(label)}</strong>
           <div class="small">You are voting in <strong>${esc(battle.title)}</strong></div>
@@ -466,6 +554,15 @@
     });
   }
 
+  function resetDrop(which) {
+    const drop = $('#drop' + which);
+    if (!drop) return;
+    drop.classList.remove('has');
+    drop.style.backgroundImage = 'none';
+    const text = drop.querySelector('.drop-text');
+    if (text) text.textContent = 'Upload image';
+  }
+
   function initCreate() {
     const r = $('#days');
     r && r.addEventListener('input', () => {
@@ -483,7 +580,10 @@
     const file = $('#file' + which);
     if (!drop || !file) return;
 
-    drop.onclick = () => file.click();
+    drop.onclick = e => {
+      if (e.target === file) return;
+      file.click();
+    };
 
     file.onchange = e => {
       const f = e.target.files[0];
@@ -496,15 +596,33 @@
       $('#imgError').textContent = 'This file is too large. Please upload an image under 2MB.';
       return;
     }
+    $('#imgError') && ($('#imgError').textContent = '');
 
     const fr = new FileReader();
     fr.onload = () => {
       s.imgs[which.toLowerCase()] = fr.result;
       const d = $('#drop' + which);
       d.classList.add('has');
-      d.innerHTML = `<img src="${fr.result}">`;
+      d.style.backgroundImage = `url("${fr.result}")`;
+      const text = d.querySelector('.drop-text');
+      if (text) text.textContent = 'Change image';
     };
     fr.readAsDataURL(file);
+  }
+
+  function resetCreateForm() {
+    $('#createSuccess') && $('#createSuccess').classList.remove('show');
+    $('#createForm') && $('#createForm').classList.remove('hidden');
+    ['title', 'desc', 'labelA', 'labelB'].forEach(id => {
+      const el = $('#' + id);
+      if (el) el.value = '';
+    });
+    s.cats = ['Crypto'];
+    s.imgs = { a: null, b: null };
+    resetDrop('A');
+    resetDrop('B');
+    $('#imgError') && ($('#imgError').textContent = '');
+    cats();
   }
 
   async function createBattle() {
@@ -552,9 +670,7 @@
       unlock('initiator');
 
       resetCaptcha();
-      await loadBattles();
-      render('feed', false);
-      points();
+      await refreshUi();
     } catch (e) {
       console.error(e);
       alert('Create battle failed.');
@@ -579,9 +695,7 @@
       localStorage.setItem(LS.points, String(Number(localStorage.getItem(LS.points) || '0') + 1));
       unlock('challenger');
       close('voteModal');
-      await loadBattles();
-      render(document.body.dataset.page === 'results' ? 'resultsFeed' : 'feed', document.body.dataset.page === 'results');
-      points();
+      await refreshUi();
     } catch (e) {
       console.error(e);
       alert('Vote failed.');
@@ -589,22 +703,61 @@
   }
 
   async function market() {
-    if (!s.address || !$('#marketTotalSupply')) return;
+    if (!s.win || !s.pool || !$('#marketTotalSupply')) return;
 
     try {
       const supply = await s.win.totalSupply();
-      const bal = await s.win.balanceOf(s.address);
-      const bb = await s.bm.contractBalances();
+      const reserveWIN = await s.pool.reserveWIN();
+      const reserveUSDC = await s.pool.reserveUSDC();
       const price = Number(await s.pool.getPrice()) / 1e6;
 
+      s.marketPrice = price;
+      s.marketData.reserveUsdc = Number(ethers.formatUnits(reserveUSDC, 6));
+      s.marketData.reserveWin = Number(ethers.formatUnits(reserveWIN, 18));
+
       $('#marketTotalSupply').textContent = fmtNum(Number(ethers.formatUnits(supply, 18)));
-      $('#marketWalletWin').textContent = fmtNum(Number(ethers.formatUnits(bal, 18)));
-      $('#marketContractUsdc').textContent = fmtUSD(Number(ethers.formatUnits(bb[0], 6)));
-      $('#marketContractWin').textContent = fmtNum(Number(ethers.formatUnits(bb[1], 18)));
-      $('#marketQuote').value = `1 WIN = ${fmtUSD(price)} USDC`;
+      $('#poolReserveUsdc') && ($('#poolReserveUsdc').textContent = fmtUSD(s.marketData.reserveUsdc));
+      $('#poolReserveWin') && ($('#poolReserveWin').textContent = fmtNum(s.marketData.reserveWin));
+      $('#marketQuote') && ($('#marketQuote').value = price ? `1 WIN = ${fmtUSD(price)} USDC` : 'Price unavailable');
+      $('#marketQuoteText') && ($('#marketQuoteText').textContent = price ? fmtUSD(price) : '—');
+
+      if (s.address) {
+        const walletUsdc = await s.usdc.balanceOf(s.address);
+        const walletWin = await s.win.balanceOf(s.address);
+        s.marketData.walletUsdc = Number(ethers.formatUnits(walletUsdc, 6));
+        s.marketData.walletWin = Number(ethers.formatUnits(walletWin, 18));
+        $('#walletUsdcBal') && ($('#walletUsdcBal').textContent = fmtUSD(s.marketData.walletUsdc));
+        $('#walletWinBal') && ($('#walletWinBal').textContent = fmtNum(s.marketData.walletWin));
+        $('#swapHint') && ($('#swapHint').textContent = 'Live quote loaded. Use USDC amount for buy or WIN amount for sell.');
+      } else {
+        $('#walletUsdcBal') && ($('#walletUsdcBal').textContent = 'Connect wallet');
+        $('#walletWinBal') && ($('#walletWinBal').textContent = 'Connect wallet');
+        $('#swapHint') && ($('#swapHint').textContent = 'Connect your wallet to trade or add liquidity. Live market data is already loaded.');
+      }
+
+      recalcLiquidityFromUsdc();
     } catch (e) {
       console.error(e);
+      $('#marketQuote') && ($('#marketQuote').value = 'Price unavailable');
+      $('#marketQuoteText') && ($('#marketQuoteText').textContent = '—');
     }
+  }
+
+  function recalcLiquidityFromUsdc() {
+    const usdcEl = $('#liqUsdc');
+    const winEl = $('#liqWin');
+    if (!usdcEl || !winEl) return;
+
+    const usdc = Number(usdcEl.value || 0);
+    if (!s.marketPrice || usdc <= 0) {
+      winEl.value = '';
+      $('#liqSummary') && ($('#liqSummary').textContent = 'Enter a USDC amount and the matching WIN amount will be calculated from the live pool price.');
+      return;
+    }
+
+    const win = usdc / s.marketPrice;
+    winEl.value = win ? win.toFixed(4) : '';
+    $('#liqSummary') && ($('#liqSummary').textContent = `${fmtUSD(usdc)} currently matches approximately ${fmtNum(win)} WIN at the live pool price.`);
   }
 
   async function swap(direction) {
@@ -639,8 +792,7 @@
 
       localStorage.setItem(LS.points, String(Number(localStorage.getItem(LS.points) || '0') + 2));
       unlock('initiated-trader');
-      points();
-      market();
+      await refreshUi();
       alert('Swap completed.');
     } catch (e) {
       console.error(e);
@@ -679,8 +831,7 @@
 
       localStorage.setItem(LS.points, String(Number(localStorage.getItem(LS.points) || '0') + 4));
       unlock('pool-walker');
-      points();
-      market();
+      await refreshUi();
       alert('Liquidity added.');
     } catch (e) {
       console.error(e);
@@ -700,7 +851,7 @@
     const unlocked = past ? (get(LS.archive, {}).badges || {}) : get(LS.unlocked, {});
     g.innerHTML = s.badges.map(b => `
       <article class="tile ${unlocked[b.id] ? '' : 'locked'}">
-        <img src="assets/badges/${b.id}-${unlocked[b.id] ? 'color' : 'gray'}.webp">
+        <img src="assets/badges/${b.id}-${unlocked[b.id] ? 'color' : 'gray'}.webp" alt="">
         <div class="mini">${esc(b.track)}</div>
         <strong>${esc(b.name)}</strong>
         <div class="small">${esc(b.rule)}<br>${esc(b.desc)}<br><strong>Boost +${b.multiplier}%</strong></div>
@@ -711,18 +862,21 @@
   async function points() {
     if (!$('#pointsVal')) return;
 
+    const verified = get(LS.verified, false);
     $('#pointsVal').textContent = localStorage.getItem(LS.points) || '0';
     $('#streakVal').textContent = (localStorage.getItem(LS.streak) || '0') + ' days';
-    $('#captchaState').textContent = get(LS.verified, false) ? 'Verified' : 'Not verified';
+    $('#captchaState').textContent = verified ? 'Verified' : 'Not verified';
     $('#refLink').value = s.address ? `${location.origin}/?ref=${s.address}` : location.href;
 
     const p = get(LS.profile, {});
-    if (p.saved) {
-      $('#profileForm').classList.add('hidden');
-      $('#profileSaved').classList.remove('hidden');
-      $('#savedName').textContent = p.username || 'Guest';
-      $('#savedX').textContent = p.x || '@not-connected';
-      $('#savedAvatar').src = p.avatar || 'assets/images/avatar.webp';
+    $('#savedName') && ($('#savedName').textContent = p.username || 'Guest');
+    $('#savedX') && ($('#savedX').textContent = p.x || '@not-connected');
+    $('#avatarPreview') && ($('#avatarPreview').src = p.avatar || 'assets/images/avatar.webp');
+    $('#topAvatar') && ($('#topAvatar').src = p.avatar || 'assets/images/avatar.webp');
+
+    if ($('#verifyBtn')) {
+      $('#verifyBtn').textContent = verified ? 'Verified' : 'Verify account';
+      $('#verifyBtn').classList.toggle('disabled-btn', verified);
     }
 
     if (new Date() > new Date(CFG.seasonEnd) && s.address && s.rd) {
@@ -740,10 +894,15 @@
   }
 
   function bindPoints() {
-    $('#verifyBtn') && ($('#verifyBtn').onclick = () => {
-      set(LS.verified, true);
-      localStorage.setItem(LS.points, String(Number(localStorage.getItem(LS.points) || '0') + 10));
-      unlock('verified-mind');
+    $('#verifyBtn') && ($('#verifyBtn').onclick = async () => {
+      if (!get(LS.verified, false)) {
+        if (!s.address) {
+          const ok = await connect(true);
+          if (!ok) return;
+        }
+        set(LS.verified, true);
+        localStorage.setItem(LS.points, String(Number(localStorage.getItem(LS.points) || '0') + 10));
+      }
       points();
     });
 
@@ -752,43 +911,47 @@
       if (!f) return;
       const fr = new FileReader();
       fr.onload = () => {
-        $('#avatarPreview').src = fr.result;
         const p = get(LS.profile, {});
         p.avatar = fr.result;
         set(LS.profile, p);
+        $('#avatarPreview') && ($('#avatarPreview').src = fr.result);
         top();
+        points();
       };
       fr.readAsDataURL(f);
     });
 
-    $('#uploadProfile') && ($('#uploadProfile').onclick = () => $('#profileFile').click());
+    $('#uploadProfile') && ($('#uploadProfile').onclick = () => $('#profileFile')?.click());
     $('#avatarPreview') && ($('#avatarPreview').onclick = () => $('#profileFile')?.click());
 
-    $('#saveProfile') && ($('#saveProfile').onclick = () => {
+    $('#editNameBtn') && ($('#editNameBtn').onclick = () => {
+      $('#nameEditWrap')?.classList.toggle('hidden');
       const p = get(LS.profile, {});
-      p.username = $('#userName').value.trim();
-      p.x = $('#userX').value.trim();
-      p.avatar = $('#avatarPreview').src || p.avatar || 'assets/images/avatar.webp';
-      p.saved = true;
+      $('#userName') && ($('#userName').value = p.username || '');
+    });
+
+    $('#saveNameBtn') && ($('#saveNameBtn').onclick = () => {
+      const p = get(LS.profile, {});
+      p.username = ($('#userName')?.value || '').trim() || 'Guest';
       set(LS.profile, p);
+      $('#nameEditWrap')?.classList.add('hidden');
       top();
       points();
     });
 
     $('#connectX') && ($('#connectX').onclick = () => {
-      unlock('messenger');
       const p = get(LS.profile, {});
       p.x = p.x || '@connected';
       set(LS.profile, p);
       points();
     });
 
-    $('#shareRef') && ($('#shareRef').onclick = () =>
+    $('#shareRef') && ($('#shareRef').onclick = () => {
       window.open(
         `https://twitter.com/intent/tweet?text=${encodeURIComponent('Join me on Votage and choose your side.')}&url=${encodeURIComponent($('#refLink').value)}`,
         '_blank'
-      )
-    );
+      );
+    });
 
     $('#claimBtn') && ($('#claimBtn').onclick = async () => {
       if (!await connect(true)) return;
@@ -808,6 +971,22 @@
     });
   }
 
+  function initMarketInteractions() {
+    $('#liqUsdc') && $('#liqUsdc').addEventListener('input', recalcLiquidityFromUsdc);
+
+    $('#liqHalfBtn') && ($('#liqHalfBtn').onclick = () => {
+      if (!s.marketData.walletUsdc) return;
+      $('#liqUsdc').value = (s.marketData.walletUsdc / 2).toFixed(2);
+      recalcLiquidityFromUsdc();
+    });
+
+    $('#liqMaxBtn') && ($('#liqMaxBtn').onclick = () => {
+      if (!s.marketData.walletUsdc) return;
+      $('#liqUsdc').value = s.marketData.walletUsdc.toFixed(2);
+      recalcLiquidityFromUsdc();
+    });
+  }
+
   function scrollTop() {
     const btn = $('#scrollTop');
     if (!btn) return;
@@ -820,14 +999,40 @@
     btn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
+  async function refreshUi() {
+    if (s.bm) {
+      await loadBattles();
+      render('feed', false);
+      render('resultsFeed', true);
+    }
+    await market();
+    await points();
+  }
+
+  async function handleConnectButton() {
+    if (s.address) {
+      await disconnect();
+    } else {
+      await connect(true);
+    }
+  }
+
+  async function initReadMode() {
+    const provider = await ensureProvider();
+    if (!provider) return;
+    initContracts(provider);
+    await refreshUi();
+  }
+
   async function init() {
     nav();
     modalClose();
     cats();
     initCreate();
+    initMarketInteractions();
     bindPoints();
 
-    $('#connectBtn') && ($('#connectBtn').onclick = () => connect(true));
+    $('#connectBtn') && ($('#connectBtn').onclick = handleConnectButton);
     $('#disconnectBtn') && ($('#disconnectBtn').onclick = disconnect);
     $('#openCreateBtn') && ($('#openCreateBtn').onclick = () => open('createModal'));
     $('#heroCreateBtn') && ($('#heroCreateBtn').onclick = () => open('createModal'));
@@ -846,12 +1051,16 @@
     await loadBadges();
     top();
 
-    if (window.ethereum) {
+    const manualDisconnect = localStorage.getItem(LS.walletDisconnected) === '1';
+    if (!manualDisconnect) {
       try {
         await connect(false);
       } catch (e) {
         console.error(e);
+        await initReadMode();
       }
+    } else {
+      await initReadMode();
     }
   }
 
