@@ -1,216 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
- <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <title>
-   Votage • Results
-  </title>
-  <link href="assets/images/logo.webp" rel="icon"/>
-  <link href="css/styles.css" rel="stylesheet"/>
-  <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.umd.min.js">
-  </script>
-  <script src="js/config.js">
-  </script>
-  <script defer="" src="js/app.js">
-  </script>
- </head>
- <body data-page="results">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Votage • Results</title>
+
+  <link rel="icon" href="assets/images/logo.webp" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.umd.min.js"></script>
+  <script src="js/config.js"></script>
+  <script defer src="js/app.js"></script>
+
+</head>
+<body data-page="results">
   <div class="app">
-   <header class="topbar">
+
+  <header class="topbar">
     <a class="brand" href="index.html">
-     <img alt="Votage" src="assets/images/logo.webp"/>
+      <img src="assets/images/logo.webp" alt="Votage" />
     </a>
+
     <nav class="nav">
-     <button class="primary" id="openCreateBtn">
-      <img class="icon" src="assets/icons/plus.svg"/>
-      Start Battle
-     </button>
-     <a data-nav="results" href="results.html">
-      Results
-     </a>
-     <a data-nav="market" href="market.html">
-      Market
-     </a>
-     <a data-nav="points" href="points.html">
-      Points
-     </a>
-     <a data-nav="how" href="how-it-works.html">
-      How it works
-     </a>
-    </nav>
-    <div class="wallet">
-     <div class="profile-mini">
-      <img id="topAvatar" src="assets/images/avatar.webp"/>
-      <div class="top-name" id="topUsername">
-       Guest
-      </div>
-     </div>
-     <div class="mini" id="walletText">
-      Not connected
-     </div>
-     <button class="btn connect" id="connectBtn">
-      <img class="icon" src="assets/icons/wallet.svg"/>
-      Connect
-     </button>
-     <button class="btn soft hidden" id="disconnectBtn">
-      Disconnect
-     </button>
-    </div>
-   </header>
-   <main class="stack">
-    <section class="card" style="padding:18px">
-     <h2 style="margin:0 0 8px">
-      Results
-     </h2>
-     <div class="mini">
-      Closed battles only. Live items stay in the main feed.
-     </div>
-    </section>
-    <section class="feed" id="resultsFeed">
-    </section>
-   </main>
-  </div>
-  <div class="modalbg" id="createModal">
-   <div class="modal">
-    <div class="row">
-     <div style="display:flex;justify-content:space-between;align-items:center">
-      <h3 style="margin:0">
-       Create Battle
-      </h3>
-      <button class="btn soft" data-close="createModal">
-       Close
+      <button class="primary" id="openCreateBtn">
+        <img class="icon" src="assets/icons/plus.svg" />
+        Start Battle
       </button>
-     </div>
-     <div class="success" id="createSuccess">
-      <strong>
-       Battle created on-chain.
-      </strong>
-      <div>
-       Your battle is now live in the feed.
+      <a href="results.html" data-nav="results">Results</a>
+      <a href="market.html" data-nav="market">Market</a>
+      <a href="points.html" data-nav="points">Points</a>
+      <a href="how-it-works.html" data-nav="how">How it works</a>
+    </nav>
+
+    <div class="wallet">
+      <div class="profile-mini">
+        <img id="topAvatar" src="assets/images/avatar.webp" alt="Profile" />
+        <div class="top-name" id="topUsername">Guest</div>
       </div>
-      <div class="center">
-       <button class="btn primary" data-close="createModal">
-        Close
-       </button>
-      </div>
-     </div>
-     <div id="createForm">
-      <div class="field">
-       <label>
-        Battle title
-       </label>
-       <input id="title" value="Which cryptocurrency is better, Bitcoin or Ethereum?"/>
-      </div>
-      <div class="field">
-       <label>
-        Description
-       </label>
-       <textarea id="desc">Choose the side you believe deserves to win this battle.</textarea>
-      </div>
-      <div class="field">
-       <label>
-        Categories (choose up to 2)
-       </label>
-       <div class="chips" id="createCats">
-       </div>
-      </div>
-      <div class="upload">
-       <div class="field">
-        <label>
-         Competitor A
-        </label>
-        <input id="labelA" value="Bitcoin"/>
-       </div>
-       <div class="drop" id="dropA">
-        Drop or upload your image 1 here
-        <input accept="image/png,image/jpeg,image/webp" class="hidden" id="fileA" type="file"/>
-       </div>
-       <div class="small">
-        JPG, PNG or WEBP • max 2MB
-       </div>
-      </div>
-      <div class="upload">
-       <div class="field">
-        <label>
-         Competitor B
-        </label>
-        <input id="labelB" value="Ethereum"/>
-       </div>
-       <div class="drop" id="dropB">
-        Drop or upload your image 2 here
-        <input accept="image/png,image/jpeg,image/webp" class="hidden" id="fileB" type="file"/>
-       </div>
-       <div class="small">
-        JPG, PNG or WEBP • max 2MB
-       </div>
-      </div>
-      <div class="row">
-       <div style="display:flex;justify-content:space-between;font-weight:800">
-        <span id="daysLabel">
-         1 day
-        </span>
-        <span id="daysCost">
-         Estimated creation cost: $1.00
-        </span>
-       </div>
-       <input id="days" max="7" min="1" step="1" type="range" value="1"/>
-       <div class="small">
-        The current deployed battle contract stores duration on-chain. This front-end previews cost using a launch rule of 1 USDC per day.
-       </div>
-      </div>
-      <div id="preview">
-      </div>
-      <div class="small" id="imgError">
-      </div>
-      <div class="center">
-       <button class="btn primary" id="createBtn">
-        Create on chain
-       </button>
-      </div>
-     </div>
+
+      <div class="mini" id="walletText">Not connected</div>
+
+      <button class="btn connect" id="connectBtn">
+        <img class="icon" src="assets/icons/wallet.svg" alt="" />
+        Connect
+      </button>
+
+      <button class="btn soft hidden" id="disconnectBtn">Disconnect</button>
     </div>
-   </div>
+  </header>
+
+    <main class="stack">
+      <section class="card" style="padding:18px">
+        <h2 style="margin:0 0 8px">Results</h2>
+        <div class="mini">Closed battles only. Live items stay in the main feed.</div>
+      </section>
+      <section class="feed" id="resultsFeed"></section>
+    </main>
   </div>
-  <div class="modalbg" id="voteModal">
-   <div class="modal">
-    <div style="display:flex;justify-content:space-between;align-items:center">
-     <h3 style="margin:0">
-      Confirm Vote
-     </h3>
-     <button class="btn soft" data-close="voteModal">
-      Close
-     </button>
+
+<div class="modalbg" id="createModal">
+  <div class="modal create-modal">
+    <div class="row">
+      <div class="modal-head">
+        <h3 style="margin:0">Create Battle</h3>
+        <button class="btn soft" data-close="createModal">Close</button>
+      </div>
+
+      <div class="success" id="createSuccess">
+        <strong>Battle created on-chain.</strong>
+        <div>Your battle is now live in the feed.</div>
+        <div class="center">
+          <button class="btn primary" data-close="createModal">Close</button>
+        </div>
+      </div>
+
+      <div id="createForm" class="create-form">
+        <div class="create-left">
+          <div class="field">
+            <label>Battle title</label>
+            <input id="title" placeholder="Type the battle title" />
+          </div>
+
+          <div class="field">
+            <label>Description</label>
+            <textarea id="desc" placeholder="Describe the battle in one clear sentence"></textarea>
+          </div>
+
+          <div class="field">
+            <label>Categories (choose up to 2)</label>
+            <div class="chips" id="createCats"></div>
+          </div>
+
+          <div class="row">
+            <div style="display:flex;justify-content:space-between;font-weight:800">
+              <span id="daysLabel">1 day</span>
+              <span id="daysCost">Estimated creation cost: $1.00</span>
+            </div>
+
+            <input type="range" min="1" max="7" step="1" value="1" id="days" />
+
+            <div class="small">
+              The deployed battle contract stores the duration on-chain.
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Security check</label>
+            <div id="captchaBox"></div>
+            <div class="small" id="captchaMsg"></div>
+          </div>
+        </div>
+
+        <div class="create-right">
+          <div class="upload">
+            <div class="field">
+              <label>Competitor A</label>
+              <input id="labelA" placeholder="Name of option A" />
+            </div>
+
+            <div class="drop" id="dropA">
+              <span class="drop-text">Upload image</span>
+              <input type="file" id="fileA" class="hidden" accept="image/png,image/jpeg,image/webp" />
+            </div>
+
+            <div class="small">JPG, PNG or WEBP • max 2MB</div>
+          </div>
+
+          <div class="upload">
+            <div class="field">
+              <label>Competitor B</label>
+              <input id="labelB" placeholder="Name of option B" />
+            </div>
+
+            <div class="drop" id="dropB">
+              <span class="drop-text">Upload image</span>
+              <input type="file" id="fileB" class="hidden" accept="image/png,image/jpeg,image/webp" />
+            </div>
+
+            <div class="small">JPG, PNG or WEBP • max 2MB</div>
+          </div>
+
+          <div class="small" id="imgError"></div>
+        </div>
+
+        <div class="create-actions">
+          <button class="btn primary" id="createBtn">Create on chain</button>
+        </div>
+      </div>
     </div>
-    <div class="row" id="voteBody">
+  </div>
+</div>
+
+
+<div class="modalbg" id="voteModal">
+  <div class="modal vote-modal">
+    <div class="modal-head">
+      <h3 style="margin:0">Confirm Vote</h3>
+      <button class="btn soft" data-close="voteModal">Close</button>
     </div>
+
+    <div class="row" id="voteBody"></div>
+
     <div class="center">
-     <button class="btn primary" id="voteBtn">
-      Confirm Vote
-     </button>
+      <button class="btn primary" id="voteBtn">Confirm Vote</button>
     </div>
-   </div>
   </div>
-  <nav class="bottom">
-   <a href="index.html">
-    Home
-   </a>
-   <a href="results.html">
-    Results
-   </a>
-   <a href="market.html">
-    Market
-   </a>
-   <a href="points.html">
-    Points
-   </a>
-   <a href="how-it-works.html">
-    How
-   </a>
-  </nav>
-  <button class="scrolltop" id="scrollTop">
-   <img class="icon" src="assets/icons/chevron-up.svg"/>
-   Back to top
-  </button>
- </body>
+</div>
+
+
+<nav class="bottom">
+  <a href="index.html">Home</a>
+  <a href="results.html">Results</a>
+  <a href="market.html">Market</a>
+  <a href="points.html">Points</a>
+  <a href="how-it-works.html">How</a>
+</nav>
+
+<button class="scrolltop" id="scrollTop">
+  <img class="icon" src="assets/icons/chevron-up.svg" alt="" />
+  Back to top
+</button>
+
+</body>
 </html>
