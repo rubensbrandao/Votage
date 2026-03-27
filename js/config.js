@@ -17,7 +17,7 @@ window.APP_CONFIG = {
 
   captcha: {
     provider: 'cloudflare-turnstile',
-    siteKey: 'YOUR_TURNSTILE_SITE_KEY'
+    siteKey: '0x4AAAAAACwgcAs0o6vq-i_9'
   }
 };
 
