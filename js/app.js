@@ -9,6 +9,8 @@ const ABIS=window.ABIS;
 let captchaToken=null;
 let captchaRendered=false;
 
+const LS={meta:'v_meta'};
+
 let s={
   provider:null,
   signer:null,
@@ -24,6 +26,9 @@ let s={
 
 const $=(x)=>document.querySelector(x);
 const $$=(x)=>[...document.querySelectorAll(x)];
+
+const getMeta=()=>JSON.parse(localStorage.getItem(LS.meta)||'{}');
+const setMeta=(m)=>localStorage.setItem(LS.meta,JSON.stringify(m));
 
 /* ================= CAPTCHA ================= */
 
@@ -47,6 +52,9 @@ function initCaptcha(){
 /* ================= WALLET ================= */
 
 async function connect(){
+
+  if(s.signer) return true;
+
   if(!window.ethereum){
     alert('MetaMask required');
     return false;
@@ -60,7 +68,6 @@ async function connect(){
   s.address=acc[0];
 
   s.bm=new ethers.Contract(CFG.contracts.battleManager,ABIS.battle,s.signer);
-  s.pool=new ethers.Contract(CFG.contracts.pool,ABIS.pool,s.signer);
 
   $('#walletText').textContent=s.address.slice(0,6)+'...'+s.address.slice(-4);
 
@@ -73,50 +80,62 @@ async function connect(){
 /* ================= BATTLES ================= */
 
 async function loadBattles(){
+
   if(!s.bm) return;
 
   const n=Number(await s.bm.battleCount());
+  const meta=getMeta();
 
   s.battles=[];
 
   for(let i=1;i<=n;i++){
+
     const r=await s.bm.battles(i);
 
     s.battles.push({
       id:i,
-      title:`Battle #${i}`,
-      la:'Option A',
-      lb:'Option B',
-      ia:'',
-      ib:''
+      title:meta[i]?.title || `Battle #${i}`,
+      desc:meta[i]?.desc || '',
+      la:meta[i]?.la || 'Option A',
+      lb:meta[i]?.lb || 'Option B',
+      ia:meta[i]?.ia || '',
+      ib:meta[i]?.ib || '',
+      a:Number(r.totalA),
+      b:Number(r.totalB)
     });
   }
 }
 
 function card(b){
-  return `
-  <div class="card">
 
-    <h3>${b.title}</h3>
+  const total=b.a+b.b;
+  const pA=total?Math.round((b.a/total)*100):50;
+  const pB=100-pA;
+
+  return `
+  <article class="battle card">
+
+    <h2>${b.title}</h2>
 
     <div class="grid2">
 
       <div class="opt">
         ${b.ia ? `<img src="${b.ia}">` : `<div class="empty">No image</div>`}
-        <button data-vote="${b.id}" data-side="1">${b.la}</button>
+        <button>${b.la} (${pA}%)</button>
       </div>
 
       <div class="opt">
         ${b.ib ? `<img src="${b.ib}">` : `<div class="empty">No image</div>`}
-        <button data-vote="${b.id}" data-side="2">${b.lb}</button>
+        <button>${b.lb} (${pB}%)</button>
       </div>
 
     </div>
 
-  </div>`;
+  </article>`;
 }
 
 function render(){
+
   const el=$('#feed');
   if(!el) return;
 
@@ -128,6 +147,7 @@ function render(){
 /* ================= UPLOAD ================= */
 
 function bindUpload(which){
+
   const drop=$('#drop'+which);
   const file=$('#file'+which);
 
@@ -147,10 +167,23 @@ function bindUpload(which){
     const fr=new FileReader();
 
     fr.onload=()=>{
-      s.imgs[which.toLowerCase()]=fr.result;
+
+      const img=fr.result;
+      s.imgs[which.toLowerCase()]=img;
 
       drop.classList.add('has');
-      drop.innerHTML=`<img src="${fr.result}">`;
+
+      drop.innerHTML=`
+        <div class="preview-img">
+          <img src="${img}">
+        </div>
+        <button class="change-btn">Change</button>
+      `;
+
+      drop.querySelector('.change-btn').onclick=(e)=>{
+        e.stopPropagation();
+        file.click();
+      };
     };
 
     fr.readAsDataURL(f);
@@ -166,23 +199,45 @@ async function createBattle(){
     return;
   }
 
-  if(!await connect()) return;
+  if(!s.signer){
+    alert('Connect wallet first');
+    return;
+  }
 
   const title=$('#title').value.trim();
+  const desc=$('#desc').value.trim();
   const la=$('#labelA').value.trim();
   const lb=$('#labelB').value.trim();
 
-  if(!title || !la || !lb){
-    alert('Fill all fields');
+  if(!title || !la || !lb || !s.imgs.a || !s.imgs.b){
+    alert('Fill everything');
     return;
   }
 
   try{
+
     const tx=await s.bm.createBattle(s.days);
     await tx.wait();
 
-    alert('Battle created');
-    location.reload();
+    const id=Number(await s.bm.battleCount());
+
+    const meta=getMeta();
+
+    meta[id]={
+      title,
+      desc,
+      la,
+      lb,
+      ia:s.imgs.a,
+      ib:s.imgs.b
+    };
+
+    setMeta(meta);
+
+    await loadBattles();
+    render();
+
+    close('createModal');
 
   }catch(e){
     console.error(e);
